@@ -27,8 +27,7 @@
         </div>
     </div>
     
-    <!-- Main content -->
-
+    <!-- Main Search Module -->
     <div class="row">
         <div class="col-md-4">
             <!-- Search side bar -->
@@ -39,23 +38,27 @@
                         <select class="form-control" id="carrierInput">
                             <option>JetBlue</option>
                         </select>
-                        
-                        <div class="btn-group" role="group" aria-label="...">
-                            <select class="form-control" id="monthInput">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                                <option>11</option>
-                                <option>12</option>
-                            </select>
+                        <br>
+                        <label for="carrierInput">Departure Date:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Month" id="month"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="form-control" placeholder="Day" id="day"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="form-control" placeholder="Year" id="year"/>
                         </div>
+                        <br>
+                        <label for="carrierInput">Airport Departure and Arrival:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
+                        </div>
+                        <br>
+                        <label>
+                            <input type="checkbox" id="weatherBool"> Account for inclement weather
+                        </label>
+                        <br>
 
                     </div>
                 </form>
@@ -65,6 +68,13 @@
             <div id="map"></div>
         </div>
     </div>
+
+    <!-- Pre-made query section -->
+    <div class="row">
+        <h1>test</h1>
+    </div>
+    <!--  -->
+
 
 </body>
 <footer>
