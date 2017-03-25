@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title>Flight Thingy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <script src="scripts.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- script element below must be in this html file -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWuqrQ1kLDEAgyNHpAmcqxFVZtwHg7_28&callback=initMap">
+  </script>
+
+</head>
+
+<body>
+    <!-- Navbar --> 
+    <div class="row">
+        <div class="col-md-2">
+            <img src="/assets/logo.jpeg" width="100%">
+        </div>
+        <div class="col-md-1">
+            <h1>Flight Thingy</h1>
+        </div>
+    </div>
+    
+    <!-- Main Search Module -->
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Search side bar -->
+            <h3>Search Settings</h3>
+                <form>
+                     <div class="form-group">
+                        <label for="carrierInput">Carrier:</label>
+                        <select class="form-control" id="carrierInput">
+                            <option>JetBlue</option>
+                        </select>
+                        <br>
+                        <label for="carrierInput">Departure Date:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Month" id="month"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="form-control" placeholder="Day" id="day"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="form-control" placeholder="Year" id="year"/>
+                        </div>
+                        <br>
+                        <label for="carrierInput">Airport Departure and Arrival:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
+                            <span class="input-group-addon">-</span>
+                            <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
+                        </div>
+                        <br>
+                        <label>
+                            <input type="checkbox" id="weatherBool"> Account for inclement weather
+                        </label>
+                        <br>
+
+                    </div>
+                </form>
+        </div>
+        <div class="col-md-8">
+            <!-- Map -->
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- Pre-made query section -->
+    <div class="row">
+        <h1>test</h1>
+    </div>
+    <!--  -->
+
+</body>
+<footer>
+    <div class="container">
+        <div class="col-md-2">
+            <h4> Flight Thingy </h4>
+            <h6>2016 University of Florida</h6>
+        </div>
+        <div class="col-md-4 push-4">
+            <h4>
+
+            </h4>    
+        </div>
+    </div>
+</footer>
+</html>
