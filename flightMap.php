@@ -12,7 +12,7 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-4">
-          <h2>Calendar</h2>
+          <h2>Flight Map</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
               tellus ac cursus commodo, tortor mauris condimentum nibh, ut
               fermentum massa justo sit amet risus. Etiam porta sem malesuada
