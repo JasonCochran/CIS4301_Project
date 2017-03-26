@@ -6,26 +6,55 @@
 
 <?php include("includes/header.html"); ?>
 
-    <body>
+<body>
 
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
         <div class="col-md-4">
-          <h2>Flight Status</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-              tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-              fermentum massa justo sit amet risus. Etiam porta sem malesuada
-              magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <!-- Search side bar -->
+            <h3>Search Settings</h3>
+            <form>
+                <div class="form-group">
+                    <label for="carrierInput">Carrier:</label>
+                    <select class="form-control" id="carrierInput">
+                        <option>JetBlue</option>
+                    </select>
+                    <br>
+                    <label for="carrierInput">Departure Date:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Month" id="month"/>
+                        <span class="input-group-addon">-</span>
+                        <input type="text" class="form-control" placeholder="Day" id="day"/>
+                        <span class="input-group-addon">-</span>
+                        <input type="text" class="form-control" placeholder="Year" id="year"/>
+                    </div>
+                    <br>
+                    <label for="carrierInput">Airport Departure and Arrival:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
+                        <span class="input-group-addon">-</span>
+                        <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
+                    </div>
+                    <br>
+                    <label>
+                        <input type="checkbox" id="weatherBool"> Account for inclement weather
+                    </label>
+                    <br>
+
+                </div>
+            </form>
         </div>
-      </div>
+        <div class="col-md-8">
+            <h2> There is a ___% chance your flight will be delayed. </h2>
+        </div>
+    </div>
 
-      <hr>
+    <hr>
 
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+</div> <!-- /container -->
 
-    <?php include("includes/footer.html"); ?>
+<?php include("includes/footer.html"); ?>
 
-    </body>
+</body>
 </html>

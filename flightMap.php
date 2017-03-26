@@ -19,11 +19,14 @@
               magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
+        <div class="col-md-8">
+            <!-- Put Google Map insert here -->
+        </div>
       </div>
 
       <hr>
 
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+    </div> <!-- /container -->
 
     <?php include("includes/footer.html"); ?>
 

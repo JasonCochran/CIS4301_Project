@@ -23,7 +23,7 @@
 
       <hr>
 
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+    </div> <!-- /container -->
 
     <?php include("includes/footer.html"); ?>
 
