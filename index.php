@@ -8,23 +8,22 @@
 
 <?php include("includes/header.html"); ?>
 
-    <body>
+<body>
 
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
         <div class="col-md-4">
-          <h2>Home</h2>
-          <p>Welcome to our Flight Delay Predictor Application! </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            <h2>Home</h2>
+            <p>Welcome to our Flight Delay Predictor Application! </p>
         </div>
-      </div>
+    </div>
 
-      <hr>
+    <hr>
 
-    </div> <!-- /container -->
+</div> <!-- /container -->
 
-    <?php include("includes/footer.html"); ?>
+<?php include("includes/footer.html"); ?>
 
-    </body>
+</body>
 </html>

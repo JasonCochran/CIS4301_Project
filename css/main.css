@@ -2,6 +2,7 @@
    Author's custom styles
    ========================================================================== */
 
-.navbar-default .navbar-collapse{
-    background-color: #9acfea;
+.navbar-default {
+    color: #FFFFFF;
+    background-color: #CC3333;
 }
