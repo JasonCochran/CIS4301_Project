@@ -41,6 +41,53 @@
         </div>
         <div class="col-md-8">
             <h1 class="text-center">Calendar Placeholder</h1>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Sat.</th>
+                    <th>Mon.</th>
+                    <th>Tues.</th>
+                    <th>Wed.</th>
+                    <th>Thur.</th>
+                    <th>Fri.</th>
+                    <th>Sun.</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
         </div>
     </div>
 
