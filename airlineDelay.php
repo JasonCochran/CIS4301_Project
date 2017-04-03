@@ -15,24 +15,40 @@
     <div class="row">
         <h4>View live delay information by catergory. All activities are updated when new information
         is laoded into the database.</h4>
+
         <div class="col-md-4">
-            <h2>Airlines</h2>
-            <p>1. Dis Airline</p>
-            <p>2. Dat Airline</p>
-            <p>3. Anotha Airline</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">Airlines</div>
+                <div class="panel-body">
+                    <p>1. Dis Airline</p>
+                    <p>2. Dat Airline</p>
+                    <p>3. Anotha Airline</p>
+                </div>
+            </div>
         </div>
+
         <div class="col-md-4">
-            <h2>Airports</h2>
-            <p>1. Dis Airport</p>
-            <p>2. Dat Airport</p>
-            <p>3. Anotha Airport</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">Airlines</div>
+                <div class="panel-body">
+                    <p>1. Dis Airline</p>
+                    <p>2. Dat Airline</p>
+                    <p>3. Anotha Airline</p>
+                </div>
+            </div>
         </div>
+
         <div class="col-md-4">
-            <h2>Planes</h2>
-            <p>1. Dis Plane</p>
-            <p>2. Dat Plane</p>
-            <p>3. Anotha Plane</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">Airlines</div>
+                <div class="panel-body">
+                    <p>1. Dis Airline</p>
+                    <p>2. Dat Airline</p>
+                    <p>3. Anotha Airline</p>
+                </div>
+            </div>
         </div>
+
     </div>
 
     <hr>

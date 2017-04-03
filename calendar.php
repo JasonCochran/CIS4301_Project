@@ -14,30 +14,34 @@
     <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-4">
-            <h2>Calendar</h2>
-            <p>View delay information as a heatmap. Specify constraints below to further
-                refine the view displayed. </p>
-            <form>
-                <div class="form-group">
-                    <label for="carrierInput">Carrier:</label>
-                    <select class="form-control" id="carrierInput">
-                        <option>JetBlue</option>
-                    </select>
-                    <br>
-                    <label for="carrierInput">Airport Departure and Arrival:</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
-                        <span class="input-group-addon">-</span>
-                        <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
-                    </div>
-                    <br>
-                    <label>
-                        <input type="checkbox" id="weatherBool"> Account for inclement weather
-                    </label>
-                    <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">Calendar</div>
+                <div class="panel-body">
+                    <p>View delay information as a heatmap. Specify constraints below to further
+                        refine the view displayed. </p>
+                    <form>
+                        <div class="form-group">
+                            <label for="carrierInput">Carrier:</label>
+                            <select class="form-control" id="carrierInput">
+                                <option>JetBlue</option>
+                            </select>
+                            <br>
+                            <label for="carrierInput">Airport Departure and Arrival:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
+                                <span class="input-group-addon">-</span>
+                                <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
+                            </div>
+                            <br>
+                            <label>
+                                <input type="checkbox" id="weatherBool"> Account for inclement weather
+                            </label>
+                            <br>
 
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="col-md-8">
             <h1 class="text-center">Calendar Placeholder</h1>
