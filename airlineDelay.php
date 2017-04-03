@@ -6,7 +6,7 @@
 <!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang=""> <!--<![endif]-->
 
-<?php include("includes/header.html"); ?>
+<?php include("includes/header.php"); ?>
 
 <body>
 

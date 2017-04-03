@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Used for adding image to home page
+   ========================================================================== */
+
+.navbar-default{
+    background:transparent;
+    border-color:transparent;
+    box-shadow:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    padding: 16px;
+}
+
+body {
+    background-color: white;
+}
+
+.navbar-default .navbar-nav>li>a {
+    font-size:20px;
+    color:#fff;
+}
+

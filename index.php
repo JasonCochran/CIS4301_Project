@@ -6,7 +6,15 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 
-<?php include("includes/header.html"); ?>
+<section class="banner" id="banner">
+    <div class="row">
+        <div class="col-lg-12">
+            <img src="assets/index_header2.jpg" width="100%">
+        </div>
+    </div>
+</section>
+
+<?php include("includes/image_header.php"); ?>
 
 <body>
 

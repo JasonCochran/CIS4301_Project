@@ -1,14 +1,14 @@
 /* ==========================================================================
-   Author's custom styles
+   Default CSS for the site
    ========================================================================== */
 
 .navbar-default {
-    background-image: -webkit-linear-gradient(top, #2b669a 0%, #2b669a 100%);
+    background-image: -webkit-linear-gradient(top,  0%, #2b669a 100%);
     background-image:      -o-linear-gradient(top, #2b669a 0%, #2b669a 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#2b669a), to(#2b669a));
     background-image:         linear-gradient(to bottom, #2b669a 0%, #2b669a 100%);
 }
 
 body{
-    background-color: #555555;
+    background-color: white;
 }
