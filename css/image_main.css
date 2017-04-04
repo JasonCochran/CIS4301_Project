@@ -1,24 +1,19 @@
 /* ==========================================================================
    Used for adding image to home page
    ========================================================================== */
-
-.navbar-default{
-    background:transparent;
-    border-color:transparent;
-    box-shadow:none;
+.navbar-default {
     position: fixed;
+    background: none;
     top: 0;
     left: 0;
     right:0;
     padding: 16px;
 }
 
-body {
-    background-color: white;
+.banner {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
-
-.navbar-default .navbar-nav>li>a {
-    font-size:20px;
-    color:#fff;
-}
-
