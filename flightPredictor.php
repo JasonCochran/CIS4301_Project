@@ -21,10 +21,25 @@ $connection = oci_connect($username = $GLOBALS['username'],
     $connection_string = '//oracle.cise.ufl.edu/orcl');
 
 // TODO write the query for this
-$statement = oci_parse($connection, 'QUERYHERE');
-oci_bind_by_name($statement, ":day_dv", $dayClean);
-oci_bind_by_name($statement, ":month_bv", $monthClean);
-oci_bind_by_name($statement, ":year_bv", $yearClean);
+$statement = oci_parse($connection, "SELECT (100 * numberOfCanceledFlights / TotalNumberOfFlights) AS percentDelayed
+FROM(
+ (SELECT count(*) AS numberOfCanceledFlights
+ FROM FLIGHTS, CANCELLATIONS
+ WHERE FLIGHTS.FLIGHTNUMBER = CANCELLATIONS.FLIGHTNUMBER
+   AND FLIGHTS.FLIGHTDATE = CANCELLATIONS.FLIGHTDATE
+   AND FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
+   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv)
+CROSS JOIN
+ (SELECT count(*) AS TotalNumberOfFlights
+ FROM FLIGHTS
+ WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
+   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv))" );
+
+// oci_bind_by_name($statement, ":day_dv", $dayClean);
+// oci_bind_by_name($statement, ":month_bv", $monthClean);
+// oci_bind_by_name($statement, ":year_bv", $yearClean);
+oci_bind_by_name($statement, ":departureAirport_bv", $departureAirportClean);
+oci_bind_by_name($statement, ":arrivalAirport_bv", $arrivalAirportClean);
 oci_execute($statement);
 
 $calendarDelays = oci_fetch_array($statement);
@@ -48,21 +63,33 @@ $monthClean = $dayClean = $yearClean = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $monthClean = test_input($_POST["month-filter"]);
-    if (!preg_match("/^[0-9]*$/", $monthClean)) {
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $monthClean)) {
         $validForm = false;
         $monthErr = "Only numeric characters accepted";
     }
 
     $dayClean = test_input($_POST["day-filter"]);
-    if (!preg_match("/^[0-9]*$/", $dayClean)) {
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $dayClean)) {
         $validForm = false;
         $dayErr = "Only numeric characters accepted";
     }
 
     $yearClean = test_input($_POST["year-filter"]);
-    if (!preg_match("/^[0-9]*$/", $yearClean)) {
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $yearClean)) {
         $validForm = false;
         $yearErr = "Only numeric characters accepted";
+    }
+
+    $departureAirportClean = test_input($_POST["departureAirport-filter"]);
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $departureAirportClean)) {
+        $validForm = false;
+        $departureAirportErr = "Only numeric characters accepted";
+    }
+
+    $arrivalAirportClean = test_input($_POST["arrivalAirport-filter"]);
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $arrivalAirportClean)) {
+        $validForm = false;
+        $arrivalAirportErr = "Only numeric characters accepted";
     }
 }
 
@@ -103,9 +130,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <br>
                             <label for="carrierInput">Airport Departure and Arrival:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
+
+                                <input type="text" class="form-control" name="filter[]" id="filter" value="Departure Airport" onclick="displayCheck(this);">
+                                <input type="text" id="Departure Airport" name="DepartureAirport-filter" style="display:none">
+                                <span class="error"><?php echo $departureAirportErr; ?></span>
+
                                 <span class="input-group-addon">-</span>
-                                <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
+
+                                <input type="text" class="form-control" name="filter[]" id="filter" value="Arrival Airport" onclick="displayCheck(this);">
+                                <input type="text" id="Arrival Airport" name="ArrivalAirport-filter" style="display:none">
+                                <span class="error"><?php echo $arrivalAirportErr; ?></span>
+
                             </div>
                             <br>
                             <label>
