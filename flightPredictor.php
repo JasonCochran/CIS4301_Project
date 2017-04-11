@@ -20,7 +20,11 @@ $connection = oci_connect($username = $GLOBALS['username'],
     $password = $GLOBALS['password'],
     $connection_string = '//oracle.cise.ufl.edu/orcl');
 
-$statement = oci_parse($connection, 'SELECT * FROM airports');
+// TODO write the query for this
+$statement = oci_parse($connection, 'QUERYHERE');
+oci_bind_by_name($statement, ":day_dv", $dayClean);
+oci_bind_by_name($statement, ":month_bv", $monthClean);
+oci_bind_by_name($statement, ":year_bv", $yearClean);
 oci_execute($statement);
 
 $calendarDelays = oci_fetch_array($statement);
@@ -44,21 +48,21 @@ $monthClean = $dayClean = $yearClean = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $monthClean = test_input($_POST["month-filter"]);
-    if (!preg_match("/^[a-zA-Z ]*$/", $monthClean)) {
+    if (!preg_match("/^[0-9]*$/", $monthClean)) {
         $validForm = false;
-        $monthErr = "Only alphanumeric characters accepted";
+        $monthErr = "Only numeric characters accepted";
     }
 
     $dayClean = test_input($_POST["day-filter"]);
-    if (!preg_match("/^[a-zA-Z ]*$/", $dayClean)) {
+    if (!preg_match("/^[0-9]*$/", $dayClean)) {
         $validForm = false;
-        $dayErr = "Only alphanumeric characters accepted";
+        $dayErr = "Only numeric characters accepted";
     }
 
     $yearClean = test_input($_POST["year-filter"]);
-    if (!preg_match("/^[a-zA-Z ]*$/", $yearClean)) {
+    if (!preg_match("/^[0-9]*$/", $yearClean)) {
         $validForm = false;
-        $yearErr = "Only alphanumeric characters accepted";
+        $yearErr = "Only numeric characters accepted";
     }
 }
 
@@ -79,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <br>
                             <label for="carrierInput">Departure Date:</label>
                             <div class="input-group">
+
                                 <input type="text" class="form-control" name="filter[]" id="filter" value="Month" onclick="displayCheck(this);">
                                 <input type="text" id="Month" name="Month-filter" style="display:none">
                                 <span class="error"><?php echo $monthErr; ?></span>
@@ -114,7 +119,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <div class="col-md-8">
-            <h2> There is a ___% chance your flight will be delayed. </h2>
+            <div class="row">
+                <p>The query return itself</p>
+            </div>
+            <div class="row">
+                <p>Some random information about the query</p>
+            </div>
         </div>
     </div>
 
