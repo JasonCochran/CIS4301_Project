@@ -13,9 +13,12 @@
 <!-- db stuff -->
 <?php
 	function runQuery($flightDateQuery, $tailNumQuery, $flightNumQuery, $originQuery, $destinationQuery, $schDepQuery, $actualDepQuery, $schArrQuery, $actualArrQuery, $distanceQuery) {
-		$connection = oci_connect($username = 'josorio',
-	                          $password = 'databas3sarewe1rd',
-	                          $connection_string = '//oracle.cise.ufl.edu/orcl');
+
+        include('globalVariables.php');
+
+        $connection = oci_connect($username = $GLOBALS['username'],
+            $password = $GLOBALS['password'],
+            $connection_string = '//oracle.cise.ufl.edu/orcl');
 
 		$baseQuery = "SELECT * FROM flightscopy WHERE ";	// the query to which the filters will be appended to
 		$numJoins = $GLOBALS['numFilters'] - 1;				// number of ANDs/ORs will always be 1 less than the # filters
