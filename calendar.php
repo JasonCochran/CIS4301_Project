@@ -8,8 +8,11 @@
 
 <?php
 
-$connection = oci_connect($username = 'jcochran',
-    $password = '972903TUXy12?',
+
+include('globalVariables.php');
+
+$connection = oci_connect($username = $GLOBALS['username'],
+    $password = $GLOBALS['password'],
     $connection_string = '//oracle.cise.ufl.edu/orcl');
 
 $statement = oci_parse($connection, 'SELECT * FROM airports');
@@ -87,16 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="text" class="form-control" name="filter[]" id="filter" value="Arrival Airport" onclick="displayCheck(this);">
                                     <input type="text" id="Arrival Airport" name="arrival-airport-filter" style="display:none">
                                     <span class="error"><?php echo $arrivalAirportErr; ?></span>
-                                    <br>
-                                    <!-- TODO fix box going outside bounder -->
                                 </form>
                             </div>
                             <br>
-                            <!-- TODO implement weather functionality later
-                            <label>
-                                <input type="checkbox" id="weatherBool"> Account for inclement weather
-                            </label>
-                            -->
                             <input type="submit" class="btn" name="submit" value="Submit">
                             <br>
                         </div>
