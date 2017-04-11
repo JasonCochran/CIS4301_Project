@@ -15,37 +15,8 @@ $connection = oci_connect($username = 'jcochran',
 $statement = oci_parse($connection, 'SELECT * FROM airports');
 oci_execute($statement);
 
-// HTML Table declaration
-echo "
-		<table class='table table-hover'>
-		<thead>
-		<tr>
-		<th>IATA</th>
-		<th>Airport Name</th>
-		<th>City</th>
-		<th>State</th>
-		<th>Latitude</th>
-		<th>Longitude</th>
-		</tr>
-		</thead>
-	";
+$calendarDelays = oci_fetch_array($statement);
 
-$calendarDelays = array();
-
-// get data from table and format it on the table
-while (($row = oci_fetch_object($statement))) {
-    echo "<tr>";
-    echo "<td>" . $row->IATA . "</td>";
-    echo "<td>" . $row->AIRPORTNAME . "</td>";
-    echo "<td>" . $row->CITY . "</td>";
-    echo "<td>" . $row->STATE . "</td>";
-    echo "<td>" . $row->LATITUDE . "</td>";
-    echo "<td>" . $row->LONGITUDE . "</td>";
-    echo "</tr>";
-}
-echo "</table>";
-
-// close Oracle database connection and free statements
 oci_free_statement($statement);
 oci_close($connection);
 
@@ -109,13 +80,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="carrierInput">Airport Departure and Arrival:</label>
                             <div class="input-group">
                                 <form method="post" action="">
-                                    <input type="text" name="filter[]" id="filter" value="Departure Airport" onclick="displayCheck(this);">
-                                    <input type="text" id="Departure Airport" name="tail-number-filter" style="display:none">
+                                    <input type="text" class="form-control" name="filter[]" id="filter" value="Departure Airport" onclick="displayCheck(this);">
+                                    <input type="text" id="Departure Airport" name="departure-airport-filter" style="display:none">
                                     <span class="error"><?php echo $departureAirportErr; ?></span>
                                     <span class="input-group-addon">-</span>
-                                    <input type="text" name="filter[]" id="filter" value="Arrival Airport" onclick="displayCheck(this);">
-                                    <input type="text" id="Arrival Airport" name="airport-airport-filter" style="display:none">
-                                    <span class="error"><?php echo $tailNumErr; ?></span>
+                                    <input type="text" class="form-control" name="filter[]" id="filter" value="Arrival Airport" onclick="displayCheck(this);">
+                                    <input type="text" id="Arrival Airport" name="arrival-airport-filter" style="display:none">
+                                    <span class="error"><?php echo $arrivalAirportErr; ?></span>
                                     <br>
                                     <!-- TODO fix box going outside bounder -->
                                 </form>
