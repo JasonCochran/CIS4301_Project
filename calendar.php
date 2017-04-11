@@ -6,12 +6,52 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 
-<?php include("includes/header.php"); ?>
+<?php
+ini_set('display_errors', 1);
+$validForm = true;
+$submitted = false;
+$input = false;
+$numFilters = 0;
+?>
 
+<?php include("includes/header.php");
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+ $departureAirportClean = $monthClean = $arrivalAirportClean = "";
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $departureAirportClean = test_input($_POST["departure-airport-filter"]);
+    if (!preg_match("/^[a-zA-Z ]*$/", $departureAirportClean)) {
+        $validForm = false;
+        $departureAirportErr = "Only alphanumeric characters accepted";
+    }
+
+    $arrivalAirportClean = test_input($_POST["arrival-airport-filter"]);
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $arrivalAirportClean)) {
+        $validForm = false;
+        $arrivalAirportErr = "Only alphanumeric characters accepted";
+    }
+
+    $monthClean = test_input($_POST["month-filter"]);
+    if (!preg_match("/^[a-zA-Z ]*$/", $monthClean)) {
+        $validForm = false;
+        $monthErr = "Only alphanumeric characters accepted";
+    }
+}
+
+
+?>
 <body>
 
 <div class="container">
-    <!-- Example row of columns -->
     <div class="row">
         <div class="col-md-4">
             <div class="panel panel-default">
@@ -21,23 +61,34 @@
                         refine the view displayed. </p>
                     <form>
                         <div class="form-group">
-                            <label for="carrierInput">Carrier:</label>
-                            <select class="form-control" id="carrierInput">
-                                <option>JetBlue</option>
+                            <input type="month" name="filter[]" id="filter" value="Month" onclick="displayCheck(this);">
+                            <input type="month" id="Month" name="month-filter" style="display:none">
+                            <span class="error"><?php echo $monthErr; ?></span>
+
                             </select>
                             <br>
                             <label for="carrierInput">Airport Departure and Arrival:</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Departure Airport" id="departure"/>
-                                <span class="input-group-addon">-</span>
-                                <input type="text" class="form-control" placeholder="Arrival Airport" id="airport"/>
+                                <form method="post" action="">
+                                    <input type="text" name="filter[]" id="filter" value="Departure Airport" onclick="displayCheck(this);">
+                                    <input type="text" id="Departure Airport" name="tail-number-filter" style="display:none">
+                                    <span class="error"><?php echo $departureAirportErr; ?></span>
+                                    <span class="input-group-addon">-</span>
+                                    <input type="text" name="filter[]" id="filter" value="Arrival Airport" onclick="displayCheck(this);">
+                                    <input type="text" id="Arrival Airport" name="airport-airport-filter" style="display:none">
+                                    <span class="error"><?php echo $tailNumErr; ?></span>
+                                    <br>
+                                    <!-- TODO fix box going outside bounder -->
+                                </form>
                             </div>
                             <br>
+                            <!-- TODO implement weather functionality later
                             <label>
                                 <input type="checkbox" id="weatherBool"> Account for inclement weather
                             </label>
+                            -->
+                            <input type="submit" class="btn" name="submit" value="Submit">
                             <br>
-
                         </div>
                     </form>
                 </div>
