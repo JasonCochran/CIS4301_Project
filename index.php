@@ -6,6 +6,10 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 
+<?php include("includes/header.php"); ?>
+
+<body>
+
 <section class="banner" id="banner">
     <div class="row">
         <div class="col-lg-12">
@@ -14,16 +18,14 @@
     </div>
 </section>
 
-<?php include("includes/image_header.php"); ?>
-
-<body>
-
 <div class="container">
     <!-- Example row of columns -->
     <div class="row">
-        <div class="col-md-4">
-            <h2>Home</h2>
-            <p>Welcome to our Flight Delay Predictor Application! </p>
+        <div class="col-md-12">
+            <h2>Welcome to our Flight Delay Predictor Application!</h2>
+            <p>You can utilize this website to predict the probability of your flight being delayed.
+            This can be particularly useful if you travel during the winter months or times with a
+            lot of travel.</p>
         </div>
     </div>
 
