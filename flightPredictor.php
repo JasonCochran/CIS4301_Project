@@ -6,6 +6,30 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 
+<?php
+// TODO remove this
+ini_set('display_errors', 1);
+$validForm = true;
+$submitted = false;
+$input = false;
+$numFilters = 0;
+
+include('globalVariables.php');
+
+$connection = oci_connect($username = $GLOBALS['username'],
+    $password = $GLOBALS['password'],
+    $connection_string = '//oracle.cise.ufl.edu/orcl');
+
+$statement = oci_parse($connection, 'SELECT * FROM airports');
+oci_execute($statement);
+
+$calendarDelays = oci_fetch_array($statement);
+
+oci_free_statement($statement);
+oci_close($connection);
+
+?>
+
 <?php include("includes/header.php");
 
 function test_input($data) {
