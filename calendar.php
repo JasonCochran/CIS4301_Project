@@ -8,14 +8,17 @@
 
 <?php
 
-
 include('globalVariables.php');
 
 $connection = oci_connect($username = $GLOBALS['username'],
     $password = $GLOBALS['password'],
     $connection_string = '//oracle.cise.ufl.edu/orcl');
 
-$statement = oci_parse($connection, 'SELECT * FROM airports');
+// TODO write query for this
+$statement = oci_parse($connection, 'queryHere');
+oci_bind_by_name($statement, ":month_dv", $monthClean);
+oci_bind_by_name($statement, ":arrivalAirport_dv", $arrivalAirportClean);
+oci_bind_by_name($statement, ":departureAirport_dv", $departureAirportClean);
 oci_execute($statement);
 
 $calendarDelays = oci_fetch_array($statement);
