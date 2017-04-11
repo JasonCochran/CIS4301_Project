@@ -1,32 +1,19 @@
 #!/usr/local/bin/php
 
-<!-- Latest form. Live Queries in one page, conditional input, form validation, input sanitization, and SQL injection prevention in one -->
-<!-- NOT FINISHED. Out of order. I'm working on a better one -->
+<!-- testform2 (the dank one). Live Queries in one page, conditional input, form validation, input sanitization, and SQL injection prevention in one -->
 
 <?php
 	ini_set('display_errors', 1);
+	$validForm = true;
+	$submitted = false;
+	$input = false;
+	$numFilters = 0;
 ?>
-
-<html>
-<head>
-	<title>JetBlue Flight Browser</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!-- BootStrap -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-</html>
 
 <!-- db stuff -->
 <?php
-	$validForm = true;
-	$submitted = false;
-
 	function runQuery($org, $dest) {
-		$connection = oci_connect($username = 'oracleusername',
+		$connection = oci_connect($username = 'oraclepassword',
 	                          $password = 'oraclepassword',
 	                          $connection_string = '//oracle.cise.ufl.edu/orcl');
 
@@ -81,94 +68,6 @@
 
 <!-- form validation -->
 <?php
-	// input variables that will be sanitized
-	$flightDateClean = $tailNumClean = $flightNumClean = $originClean = $destClean = $schDepClean = $actualDepClean = $schArrClean = $actualArrClean = $distanceClean = "";
-
-	// validates each variable
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$flightDateClean = test_input($_POST["flight-date-filter"]);
-		$tailNumClean = test_input($_POST["tail-number-filter"]);
-		/* tail number
-		if (empty($_POST["tail-number-filter"])) {
-			// if tail number is empty
-			//$validForm = false;
-			//$nameErr = "Origin is required";
-		} else {
-			$tailNumClean = test_input($_POST["tail-number-filter"]);
-
-			if (!preg_match("/^[a-zA-Z0-9 ]*$/", $tailNumClean)) {
-				$validForm = false;
-				$nameErr = "Only alphanumeric characters accepted";
-			}
-		}
-		*/
-		$flightNumClean = test_input($_POST["flight-number-filter"]);
-		/*
-		if (empty($_POST["flight-number-filter"])) {
-			$validForm = false;
-			$flightNumErr = "Flight number not provided";
-		}
-		else {
-			$flightNumClean = test_input($_POST["flight-number-filter"]);
-
-			if (!preg_match('/^([0-9]+)$/', $flightNumClean)) {
-				$validForm = false;
-				$flightNumErr = "Only numbers accepted";
-			}
-		}
-		*/
-
-		// DONE - origin
-		if (empty($_POST["origin-filter"])) {
-			$validForm = false;
-			$orgErr = "Origin is required";
-		}
-		else {
-			$originClean = test_input($_POST["origin-filter"]);
-
-			if (!preg_match("/^[a-zA-Z0-9 ]*$/", $originClean)) {
-				$validForm = false;
-				$orgErr = "Only alphanumeric characters accepted";
-			}
-		}
-
-		// DONE - destination
-		if (empty($_POST["destination-filter"])) {
-			$validForm = false;
-			$destErr = "Destination is required";
-		}
-		else {
-			$destClean = test_input($_POST["destination-filter"]);
-
-			if (!preg_match("/^[a-zA-Z0-9 ]*$/", $destClean)) {
-				$validForm = false;
-				$destErr = "Only alphanumeric characters accepted";
-			}
-		}
-
-		$schDepClean = test_input($_POST["sch-dep-filter"]);
-		$actualDepClean = test_input($_POST["actual-dep-filter"]);
-		$schArrClean = test_input($_POST["sch-arr-filter"]);
-		$actualArrClean = test_input($_POST["actual-arr-filter"]);
-		$distanceClean = test_input($_POST["distance-filter"]);
-		// DONE - distance
-		/*
-		if (empty($_POST["distance-filter"])) {
-			// if distance is empty
-			$validForm = false;
-			$distanceErr = "Distance not provided";
-		}
-		else {
-			$distanceClean = test_input($_POST["distance-filter"]);
-
-			if (!preg_match('/^([0-9]+)$/', $distanceClean)) {
-				$validForm = false;
-				$distanceErr = "Only numbers accepted";
-			}
-		}
-		*/
-	}
-
 	// helps prevent malicious HTML input
 	function test_input($data) {
 		$data = trim($data);
@@ -177,31 +76,68 @@
 		return $data;
 	}
 
-	// check if form was submitted
-	if(isset($_POST['submit'])) {
+	// input variables that will be sanitized
+	$flightDateClean = $tailNumClean = $flightNumClean = $originClean = $destClean = $schDepClean = $actualDepClean = $schArrClean = $actualArrClean = $distanceClean = "";
 
-		/* 
-		NOT USED ATM
-		Simply prints the data that was input
-		
-		$message = "Data entered:" . "<br><br>";
-		$message .= "Flight Date: " . $flightDateClean . "<br>";
-		$message .= "Tail Number: " . $tailNumClean . "<br>";
-		$message .= "Flight Number: " . $flightNumClean . "<br>";
-		$message .= "Origin: " . $originClean . "<br>";
-		$message .= "Destination: " . $destClean . "<br>";
-		$message .= "Scheduled Departure: " . $schDepClean . "<br>";
-		$message .= "Actual Departure: " . $actualDepClean . "<br>";
-		$message .= "Scheduled Arrival: " . $schArrClean . "<br>";
-		$message .= "Actual Arrival: " . $actualArrClean . "<br>";
-		$message .= "Distance: " . $distanceClean . "<br>";
+	// validates each variable
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$flightDateClean = test_input($_POST["flight-date-filter"]);
 
-		*/
+		// DONE - tail number
+		$tailNumClean = test_input($_POST["tail-number-filter"]);
+		if (!preg_match("/^[a-zA-Z0-9 ]*$/", $tailNumClean)) {
+			$validForm = false;
+			$tailNumErr = "Only alphanumeric characters accepted";
+		}
 
-		// if the form is valid, then it can be submitted
-		if($validForm) $submitted = true;
+		// DONE - flight number
+		$flightNumClean = test_input($_POST["flight-number-filter"]);
+		if (!is_numeric($flightNumClean) && !empty($flightNumClean)) {
+			$validForm = false;
+			$flightNumErr = "Only numbers accepted";
+		}
+
+		// DONE - origin
+		$originClean = test_input($_POST["origin-filter"]);
+		if (!preg_match("/^[a-zA-Z0-9 ]*$/", $originClean)) {
+			$validForm = false;
+			$orgErr = "Only alphanumeric characters accepted";
+		}
+
+		// DONE - destination
+		$destClean = test_input($_POST["destination-filter"]);
+		if (!preg_match("/^[a-zA-Z0-9 ]*$/", $destClean)) {
+			$validForm = false;
+			$destErr = "Only alphanumeric characters accepted";
+		}
+
+		// TO DO
+		$schDepClean = test_input($_POST["sch-dep-filter"]);
+		$actualDepClean = test_input($_POST["actual-dep-filter"]);
+		$schArrClean = test_input($_POST["sch-arr-filter"]);
+		$actualArrClean = test_input($_POST["actual-arr-filter"]);
+
+		// DONE - distance
+		$distanceClean = test_input($_POST["distance-filter"]);
+		if (!is_numeric($distanceClean) && !empty($distanceClean)) {
+			$validForm = false;
+			$distanceErr = "Only numbers accepted";
+		}
 	}
 ?>
+
+<html>
+<head>
+	<title>JetBlue Flight Browser</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- BootStrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+</html>
 
 <style>
 .error {color: #FF0000;}
@@ -224,8 +160,8 @@
 	}
 </script>
 
-<h2>JetBlue Flight Browser</h2>
-<p>Enter the origin and destination airport codes and see a sample of the 2016 JetBlue flights on your browser!</p>
+<h2>The Dank JetBlue Flight Browser</h2>
+<p>You're not supposed to be here. This one is really experimental. Expect bugs and weird output.</p>
 <p><span class="error">* required field.</span></p>
 
 <form method="post" action="">
@@ -239,26 +175,25 @@
 	<!-- Tail Number -->
 	<input type="checkbox" name="filter[]" id="filter" value="Tail Number" onclick="displayCheck(this);">Tail Number
 	<input type="text" id="Tail Number" name="tail-number-filter" style="display:none">
+	<span class="error"><?php echo $tailNumErr; ?></span>
 	<br>
 
 	<!-- Flight Number -->
 	<input type="checkbox" name="filter[]" id="filter" value="Flight Number" onclick="displayCheck(this);">Flight Number
 	<input type="text" id="Flight Number" name="flight-number-filter" style="display:none">
-	<!-- < ?php if($flightNumSelected) echo "<span class=\"error\">" . "*" . $flightNumErr . "</span>"; ?> -->
+	<span class="error"><?php echo $flightNumErr; ?></span>
 	<br>
 
 	<!-- Origin -->
 	<input type="checkbox" name="filter[]" id="filter" value="Origin" onclick="displayCheck(this);">Origin
 	<input type="text" id="Origin" name="origin-filter" style="display:none">
-	<span class="error">* <?php echo $orgErr; ?></span>
-	<!-- < ?php if($originSelected) echo "<span class=\"error\">" . "*" . $orgErr . "</span>"; ?> -->
+	<span class="error"> * <?php echo $orgErr; ?></span>
 	<br>
 
 	<!-- Destination -->
 	<input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);">Destination
 	<input type="text" id="Destination" name="destination-filter" style="display:none">
-	<span class="error">* <?php echo $destErr; ?></span>
-	<!-- < ?php if($destSelected) echo "<span class=\"error\">" . "*" . $destErr . "</span>"; ?> -->
+	<span class="error"> * <?php echo $destErr; ?></span>
 	<br>
 
 	<!-- Scheduled Departure Time -->
@@ -280,20 +215,56 @@
 	<!-- Distance -->
 	<input type="checkbox" name="filter[]" id="filter" value="Distance" onclick="displayCheck(this);">Distance
 	<input type="text" id="Distance" name="distance-filter" style="display:none">
-	<!-- < ?php if($distanceSelected) echo "<span class=\"error\">" . "*" . $distanceErr . "</span>"; ?> -->
+	<span class="error"><?php echo $distanceErr; ?></span>
 	<br>
 
 	<br>
 	<input type="submit" class="btn" name="submit" value="Submit">
 	<br><br>  
-
-	<?php 
-		echo $message;
-
-		// if form is valid and submit has been clicked, run the query
-		if ($validForm && $submitted) {
-			runQuery($originClean, $destClean);
-		}
-		$submitted = false;
-	?>
 </form>
+
+<!-- After form has been submitted -->
+<?php
+	if(isset($_POST['submit'])) {
+
+		$stack = array();
+		array_push($stack, $flightDateClean);
+		array_push($stack, $tailNumClean);
+		array_push($stack, $flightNumClean);
+		array_push($stack, $originClean);
+		array_push($stack, $destClean);
+		array_push($stack, $schDepClean);
+		array_push($stack, $actualDepClean);
+		array_push($stack, $schArrClean);
+		array_push($stack, $actualArrClean);
+		array_push($stack, $distanceClean);
+
+		foreach ($stack as $value) {
+			// if there's at least one input, we can submit the query
+			if(!empty($value)) {
+				$numFilters++;
+				$input = true;
+			}
+			echo "value: " . $value . "<br>";
+		}
+
+		echo "total number of filters: " . $numFilters . "<br>";
+		
+		// if the form is valid, then it can be submitted
+		if($validForm) {
+			$submitted = true;
+		}
+	}
+	
+
+	// if form is valid and submit has been clicked, run the query
+	if ($validForm && $submitted && $input) {
+		echo "<br>" . "Running query!" . "<br>";
+		runQuery($originClean, $destClean);
+	}
+
+	// reset form
+	$validForm = true;
+	$submitted = false;
+	$input = false;
+?>
