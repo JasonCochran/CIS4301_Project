@@ -67,7 +67,7 @@
     </div>
 </div>
 </div>
-<div class="p-container">
+<div class="container">
     <?php include("includes/footer.html"); ?>
 </body>
 </html>
