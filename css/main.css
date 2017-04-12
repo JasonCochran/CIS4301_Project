@@ -1,14 +1,112 @@
-/* ==========================================================================
-   Custom CSS
-   ========================================================================== */
-
-.navbar-default {
-    background-image: -webkit-linear-gradient(top, #d5d5d5 0%,  100%);
-    background-image:      -o-linear-gradient(top, #d5d5d5 0%, #d5d5d5 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#d5d5d5), to(#d5d5d5));
-    background-image:         linear-gradient(to bottom, #d5d5d5 0%, #d5d5d5 100%);
+body {
+	margin: 0;
+	background-color: white;
+	font-family: 'Raleway', sans-serif;
 }
 
-body{
-    background-color: white;
+header{
+	/* new stuff */
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	/* end of new stuff */
+	background-image: url(http://www.cise.ufl.edu/~josorio/flight/assets/flight-at-sunset.jpg);
+	height: 100vh;
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#home-page-content {
+	margin-top: 95vh;
+}
+
+#header-title {
+	font-family: 'Raleway', sans-serif;
+	font-size: 45px;
+	font-weight: normal;
+	color: white;
+	margin: 1px;
+	word-wrap: normal;
+}
+
+#header-subtitle {
+	font-family: 'Raleway', sans-serif;
+	color: white;
+	font-size: 20px;
+	margin: 1px;
+}
+
+.p-container{
+	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	color: black;
+	line-height: 140%;
+	padding-top: 2vh;
+	padding-left: 6vh;
+	padding-right: 6vh;
+	padding-bottom: 2vh;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: white;
+}
+
+/* Colors for the actual nav bar */
+.navbar, .navbar-default, .navbar-fixed-top {
+	background: none;
+	border-color: transparent;
+}
+
+/* Colors active section in the nav bar */
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+	background: none;
+	color: white;
+}
+
+/* Colors items based on focus and hover */
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	background: none;
+	color: #FF9800;
+}
+
+/* Colors for the links in the nav bar */
+.navbar-default .navbar-nav>li>a {
+	color: white;
+}
+
+/* Colors title in nav bar */
+.navbar-default .navbar-brand {
+	color: white;
+}
+
+/* Colors title in nav bar based on focus and hover */
+.navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+	background: none;
+	color: #FF9800;
+}
+
+.navbar-default .navbar-toggle {
+	border-color: transparent;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+	background: none;
+}
+
+@media only screen and (max-width: 600px) {
+	#header-title {
+		font-size: 35px;
+	}
+
+	#header-subtitle {
+		font-size: 16px;
+	}
 }
