@@ -11,7 +11,7 @@ header{
 	top: 0px;
 	width: 100%;
 	/* end of new stuff */
-	background-image: url(http://www.cise.ufl.edu/~josorio/flight/assets/flight-at-sunset.jpg);
+	background-image: url("../assets/flight-at-sunset.jpg");
 	height: 100vh;
 	background-size: cover;
 	display: flex;
