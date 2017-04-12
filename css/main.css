@@ -110,3 +110,33 @@ header{
 		font-size: 16px;
 	}
 }
+
+.navbar-solid .navbar-brand {
+	color: black;
+}
+
+.navbar-solid .navbar-nav>li>a {
+	color: black;
+}
+
+/* Colors title in nav bar based on focus and hover */
+.navbar-solid .navbar-brand:hover, .navbar-default .navbar-brand:hover {
+	background: none;
+	color: #FF9800;
+}
+
+/* Colors items based on focus and hover */
+.navbar-solid .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	background: none;
+	color: #FF9800;
+}
+
+.navbar .navbar-solid>.navbar-fixed-top {
+	border-color: #0f0f0f;
+}
+
+/* Colors for the actual nav bar */
+.navbar .navbar-solid, .navbar-fixed-top {
+	background: gainsboro;
+	border-color: darkgrey;
+}
