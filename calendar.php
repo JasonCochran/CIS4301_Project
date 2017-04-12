@@ -15,7 +15,29 @@ $connection = oci_connect($username = $GLOBALS['username'],
     $connection_string = '//oracle.cise.ufl.edu/orcl');
 
 // TODO write query for this
-$statement = oci_parse($connection, 'queryHere');
+$statement = oci_parse($connection, 'SELECT t2.FLIGHTDATE,
+ coalesce(t1.numberOfCanceledFlights, 0) AS NumberOfCanceledFlights,
+ t2.TotalNumberOfFlightsPerDay AS TotalNumberOfFlightsPerDay,
+ coalesce((100 * numberOfCanceledFlights/TotalNumberOfFlightsPerDay), 0) AS percentDelayed
+FROM
+ (SELECT FLIGHTS.FLIGHTDATE, count(*) AS numberOfCanceledFlights
+    FROM CANCELLATIONS, FLIGHTS
+    WHERE FLIGHTS.FLIGHTNUMBER = CANCELLATIONS.FLIGHTNUMBER
+          AND FLIGHTS.FLIGHTDATE = CANCELLATIONS.FLIGHTDATE
+          AND FLIGHTS.ORIGINAIRPORT = :departureAirport_dv
+          AND FLIGHTS.DESTINATIONAIRPORT = :arrivalAirport_dv
+          AND EXTRACT(MONTH FROM Flights.FLIGHTDATE) = :month_dv
+       GROUP BY FLIGHTS.FLIGHTDATE) t1
+   RIGHT OUTER JOIN
+   (SELECT FLIGHTS.FLIGHTDATE, count(*) AS TotalNumberOfFlightsPerDay
+    FROM FLIGHTS
+    WHERE EXTRACT(MONTH FROM Flights.FLIGHTDATE) = :month_dv
+          AND FLIGHTS.ORIGINAIRPORT = :departureAirport_dv
+          AND FLIGHTS.DESTINATIONAIRPORT = :arrivalAirport_dv
+       GROUP BY FLIGHTS.FLIGHTDATE) t2
+   ON t1.FLIGHTDATE = t2.FLIGHTDATE
+ ORDER BY t2.FLIGHTDATE ASC');
+
 oci_bind_by_name($statement, ":month_dv", $monthClean);
 oci_bind_by_name($statement, ":arrivalAirport_dv", $arrivalAirportClean);
 oci_bind_by_name($statement, ":departureAirport_dv", $departureAirportClean);
@@ -34,6 +56,7 @@ $numFilters = 0;
 ?>
 
 <?php include("includes/header.php");
+include("includes/navbar.html");
 
 function test_input($data) {
     $data = trim($data);
@@ -50,19 +73,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departureAirportClean = test_input($_POST["departure-airport-filter"]);
     if (!preg_match("/^[a-zA-Z ]*$/", $departureAirportClean)) {
         $validForm = false;
-        $departureAirportErr = "Only alphanumeric characters accepted";
+        $departureAirportErr = "Only alpha characters accepted";
     }
 
     $arrivalAirportClean = test_input($_POST["arrival-airport-filter"]);
-    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $arrivalAirportClean)) {
+    if (!preg_match("/^[a-zA-Z ]*$/", $arrivalAirportClean)) {
         $validForm = false;
-        $arrivalAirportErr = "Only alphanumeric characters accepted";
+        $arrivalAirportErr = "Only alpha characters accepted";
     }
 
     $monthClean = test_input($_POST["month-filter"]);
     if (!preg_match("/^[a-zA-Z ]*$/", $monthClean)) {
         $validForm = false;
-        $monthErr = "Only alphanumeric characters accepted";
+        $monthErr = "Only numeric characters accepted";
     }
 }
 ?>
@@ -154,8 +177,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </table>
         </div>
     </div>
-
-    <hr>
 
 </div> <!-- /container -->
 

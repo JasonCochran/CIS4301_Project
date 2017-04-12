@@ -7,6 +7,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 
 <?php include("includes/header.php"); ?>
+<?php include("includes/navbar.html"); ?>
 
 <body>
 
@@ -19,15 +20,11 @@
                 tellus ac cursus commodo, tortor mauris condimentum nibh, ut
                 fermentum massa justo sit amet risus. Etiam porta sem malesuada
                 magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-8">
             <!-- Put Google Map insert here -->
         </div>
     </div>
-
-    <hr>
-
 </div> <!-- /container -->
 
 <?php include("includes/footer.html"); ?>

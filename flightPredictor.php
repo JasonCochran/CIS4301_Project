@@ -50,6 +50,7 @@ oci_close($connection);
 ?>
 
 <?php include("includes/header.php");
+include("includes/navbar.html");
 
 function test_input($data) {
     $data = trim($data);
@@ -162,8 +163,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
-
-    <hr>
 
 </div> <!-- /container -->
 
