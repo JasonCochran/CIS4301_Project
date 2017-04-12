@@ -13,10 +13,13 @@
 </html>
 
 <?php
-	// database connection
-	$connection = oci_connect($username = 'oracleusername',
-	                          $password = 'oraclepassword',
-	                          $connection_string = '//oracle.cise.ufl.edu/orcl');
+
+
+include('globalVariables.php');
+
+$connection = oci_connect($username = $GLOBALS['username'],
+    $password = $GLOBALS['password'],
+    $connection_string = '//oracle.cise.ufl.edu/orcl');
 
 	$statement = oci_parse($connection, 'SELECT * FROM airports');
 	oci_execute($statement);
@@ -47,8 +50,6 @@
 		echo "<td>" . $row->LONGITUDE . "</td>";
 		echo "</tr>";
 	}
-
-	// finish table
 	echo "</table>";
 
 	// close Oracle database connection and free statements
