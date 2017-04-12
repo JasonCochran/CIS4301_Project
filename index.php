@@ -14,7 +14,7 @@
 <body>
 	<header>
 		<h1 id="header-title">JetBlue Delay Predictor</h1>
-		<h2 id="header-subtitle">Never be late to your next destination.</h2>
+		<h2 id="header-subtitle">Never be late to your next destination</h2>
 	</header>
 
 	<div id="home-page-content">
