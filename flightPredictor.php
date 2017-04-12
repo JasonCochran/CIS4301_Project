@@ -28,12 +28,14 @@ FROM(
  WHERE FLIGHTS.FLIGHTNUMBER = CANCELLATIONS.FLIGHTNUMBER
    AND FLIGHTS.FLIGHTDATE = CANCELLATIONS.FLIGHTDATE
    AND FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
-   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv)
+   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv
+   AND FLIGHTS.FLIGHTDATE = 'YEAR-MONTH_DAY')
 CROSS JOIN
  (SELECT count(*) AS TotalNumberOfFlights
  FROM FLIGHTS
  WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
-   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv))" );
+   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv 
+      AND FLIGHTS.FLIGHTDATE = 'YEAR-MONTH_DAY'))" );
 
 // oci_bind_by_name($statement, ":day_dv", $dayClean);
 // oci_bind_by_name($statement, ":month_bv", $monthClean);
@@ -50,7 +52,7 @@ oci_close($connection);
 ?>
 
 <?php include("includes/header.php");
-include("includes/navbar.html");
+include("includes/solid_navbar.html");
 
 function test_input($data) {
     $data = trim($data);

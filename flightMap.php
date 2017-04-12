@@ -7,7 +7,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 
 <?php include("includes/header.php"); ?>
-<?php include("includes/navbar.html"); ?>
+<?php include("includes/solid_navbar.html"); ?>
 
 <body>
 

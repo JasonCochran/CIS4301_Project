@@ -56,7 +56,7 @@ $numFilters = 0;
 ?>
 
 <?php include("includes/header.php");
-include("includes/navbar.html");
+include("includes/solid_navbar.html");
 
 function test_input($data) {
     $data = trim($data);
