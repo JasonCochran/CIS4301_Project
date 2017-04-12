@@ -52,7 +52,6 @@
 				<p class="lead">Simply input some details about your next flight with JetBlue and get an instant delay prediction.</p>
 			</div>
 			<div class="col-md-5">
-				<!-- <img class="featurette-image img-responsive center-block" src="http://www.cise.ufl.edu/~josorio/flight/assets/travel.svg" alt="Travel image"> -->
 				<img class="featurette-image img-responsive center-block" src="http://www.cise.ufl.edu/~josorio/flight/assets/travel.svg" alt="Travel image" width="250" height="250">
 			</div>
 			</div>
@@ -74,7 +73,7 @@
 			<div class="row featurette">
 			<div class="col-md-7">
 				<h2 class="featurette-heading">Stats.<span class="text-muted"> For those that like data.</span></h2>
-				<p class="lead">With our data browser, you can see all the tuples we have stored in the database at any given time!</p>
+				<p class="lead">With our custom search tool, you can check out the data we're using on your own browser.</p>
 			</div>
 			<div class="col-md-5">
 				<img class="featurette-image img-responsive center-block" src="http://www.cise.ufl.edu/~josorio/flight/assets/browser.svg" alt="Browser image" width="250" height="250">
