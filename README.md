@@ -1,9 +1,9 @@
-# CIS4301_Project
+# Flight Delay Predictor
 
-Jonathan Osorio
+Jonathan Osorio, Lucas Sanders, Nicholas Kroeger, Jason Cochran
 
-Lucas Sanders
+A project for our CIS4301 Database Systems class. We built
+a flight delay predictor that uses Dept. of Transportation
+data to predict if your flight will be delayed or not.
 
-Nicholas Kroeger
-
-Jason Cochran
+Built primarily with PHP, HTML, and CSS.
