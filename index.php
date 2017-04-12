@@ -8,7 +8,6 @@
 
 <head>
 	<title>JetBlue Delay Predictor</title>
-	<!-- Color Chrome Nav Bar -->
 	<meta name="theme-color" content="#3B4163"/>
 </head>
 <body>
@@ -19,31 +18,28 @@
 
 	<div id="home-page-content">
 
-		<!-- Marketing messaging -->
 		<div class="container marketing">
 
-			<!-- Three columns of text below the carousel -->
 			<div class="row">
 			<div class="col-lg-4">
 				<img src="http://www.cise.ufl.edu/~josorio/flight/assets/stats.svg" alt="Stats image" width="140" height="140">
 				<h2>Dataset</h2>
 				<p>Using flight data provided by the Bureau of Transportation Statistics, our predictor can determine how likely it is that your flight
                     will be delayed using historical data.</p>
-			</div><!-- /.col-lg-4 -->
+			</div>
 			<div class="col-lg-4">
 				<img src="http://www.cise.ufl.edu/~josorio/flight/assets/database.svg" alt="Database image" width="140" height="140">
 				<h2>Database</h2>
 				<p>Through the Oracle Database, our predictor can quickly lookup and retrieve the information requested,
                     letting you not only save time and the headache of directly interacting with queries.</p>
-			</div><!-- /.col-lg-4 -->
+			</div>
 			<div class="col-lg-4">
 				<img src="http://www.cise.ufl.edu/~josorio/flight/assets/programmer.svg" alt="Programming" width="140" height="140">
 				<h2>Programming</h2>
 				<p>Built with the best web programming and markup tools available; including PHP, HTML5, CSS3, Bootstrap, and jQuery.</p>
-			</div><!-- /.col-lg-4 -->
-			</div><!-- /.row -->
+			</div>
+			</div>
 
-		  <!-- START THE FEATURETTES -->
 		  <hr class="featurette-divider">
 
 			<div class="row featurette">
@@ -81,8 +77,6 @@
 			</div>
 
 		  <hr class="featurette-divider">
-
-		  <!-- /END THE FEATURETTES -->
 
 		<div class="p-container">
 			<?php include("includes/footer.html"); ?>
