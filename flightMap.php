@@ -1,33 +1,73 @@
 #!/usr/local/bin/php
 
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-
+<html>
 <?php include("includes/header.php"); ?>
 <?php include("includes/solid_navbar.html"); ?>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['geochart']});
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable([
+                ['Country',   'Latitude'],
+                ['Algeria', 36], ['Angola', -8], ['Benin', 6], ['Botswana', -24],
+                ['Burkina Faso', 12], ['Burundi', -3], ['Cameroon', 3],
+                ['Canary Islands', 28], ['Cape Verde', 15],
+                ['Central African Republic', 4], ['Ceuta', 35], ['Chad', 12],
+                ['Comoros', -12], ['Cote d\'Ivoire', 6],
+                ['Democratic Republic of the Congo', -3], ['Djibouti', 12],
+                ['Egypt', 26], ['Equatorial Guinea', 3], ['Eritrea', 15],
+                ['Ethiopia', 9], ['Gabon', 0], ['Gambia', 13], ['Ghana', 5],
+                ['Guinea', 10], ['Guinea-Bissau', 12], ['Kenya', -1],
+                ['Lesotho', -29], ['Liberia', 6], ['Libya', 32], ['Madagascar', null],
+                ['Madeira', 33], ['Malawi', -14], ['Mali', 12], ['Mauritania', 18],
+                ['Mauritius', -20], ['Mayotte', -13], ['Melilla', 35],
+                ['Morocco', 32], ['Mozambique', -25], ['Namibia', -22],
+                ['Niger', 14], ['Nigeria', 8], ['Republic of the Congo', -1],
+                ['Réunion', -21], ['Rwanda', -2], ['Saint Helena', -16],
+                ['São Tomé and Principe', 0], ['Senegal', 15],
+                ['Seychelles', -5], ['Sierra Leone', 8], ['Somalia', 2],
+                ['Sudan', 15], ['South Africa', -30], ['South Sudan', 5],
+                ['Swaziland', -26], ['Tanzania', -6], ['Togo', 6], ['Tunisia', 34],
+                ['Uganda', 1], ['Western Sahara', 25], ['Zambia', -15],
+                ['Zimbabwe', -18]
+            ]);
+
+            var options = {
+                region: 'US', // USA
+                resolution: 'provinces',
+                colorAxis: {colors: ['#00853f', 'black', '#e31b23']},
+                backgroundColor: '#81d4fa',
+                datalessRegionColor: '#f8bbd0',
+                defaultColor: '#f5f5f5',
+            };
+
+            var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
+            chart.draw(data, options);
+        };
+    </script>
+</head>
 
 <body>
-
 <div class="container">
-    <!-- Example row of columns -->
     <div class="row">
-        <div class="col-md-4">
-            <h2>Flight Map</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-                tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus. Etiam porta sem malesuada
-                magna mollis euismod. Donec sed odio dui. </p>
+        <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">Map of Delays</div>
+                <div class="panel-body">
+                    View all of the delays in a heatmap across the United States.
+                </div>
+            </div>
         </div>
-        <div class="col-md-8">
-            <!-- Put Google Map insert here -->
+        <div class="col-lg-5">
+            <div id="geochart-colors" style="width: 700px; height: 433px;"></div>
         </div>
     </div>
-</div> <!-- /container -->
-
-<?php include("includes/footer.html"); ?>
-
+</div>
+</div>
+<div class="p-container">
+    <?php include("includes/footer.html"); ?>
 </body>
 </html>
