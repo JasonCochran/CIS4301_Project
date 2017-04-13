@@ -14,47 +14,35 @@
 <div class="container">
     <!-- Example row of columns -->
     <div class="row">
-        <h4>View live delay information by catergory. All activities are updated when new information
+        <h4>View live delay information. All activities are updated when new information
         is laoded into the database.</h4>
 
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Airlines</div>
+                <div class="panel-heading">Most Delayed Airports</div>
                 <div class="panel-body">
-                    <p>1. Dis Airline</p>
-                    <p>2. Dat Airline</p>
-                    <p>3. Anotha Airline</p>
-                </div>
-            </div>
-        </div>
+                    <?php
+						$connection = oci_connect($username = 'oraclepassword', $password = 'oraclepassword', $connection_string = '//oracle.cise.ufl.edu/orcl');
 
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Airlines</div>
-                <div class="panel-body">
-                    <p>1. Dis Airline</p>
-                    <p>2. Dat Airline</p>
-                    <p>3. Anotha Airline</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Airlines</div>
-                <div class="panel-body">
-                    <p>1. Dis Airline</p>
-                    <p>2. Dat Airline</p>
-                    <p>3. Anotha Airline</p>
+						$connection = oracle_startup();
+						$stid = oci_parse($connection, "SELECT airportName FROM ((SELECT originAirport, AVG(TO_NUMBER(TO_CHAR(deptTimeActual, 'DD-MON-YYYY HH24:MI:SS')) - TO_NUMBER(TO_CHAR(deptTimeScheduled, 'DD-MON-YYYY HH24:MI:SS'))) AS Delay FROM flights) JOIN airports)");
+						oci_execute($stid);
+                    	for($i=1; $i<=3; $i++) {
+                            $airport = oci_fetch_object($stid);
+                            echo "<li>" . $airport["airportName"] . "</li>";
+                    	}
+                    ?>
                 </div>
             </div>
         </div>
 
     </div>
-</div> <!-- /container -->
-<div class="container">
+
     <hr>
-    <?php include("includes/footer.html"); ?>
-</div>
+
+</div> <!-- /container -->
+
+<?php include("includes/footer.html"); ?>
+
 </body>
 </html>
