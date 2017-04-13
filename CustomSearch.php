@@ -1,10 +1,23 @@
 #!/usr/local/bin/php
 
-<!-- Final form. Live Queries in one page, conditional input, form validation, input sanitization, and SQL injection prevention in one -->
+<html>
+<head>
+	<title>JetBlue Data Custom Search</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-<!-- our CSS -->
-<link rel="stylesheet" href="http://www.cise.ufl.edu/~josorio/flight/css/main.css">
+	<!-- BootStrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- Raleway & Roboto -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
+	<!-- custom CSS for this page -->
+	<link rel="stylesheet" href="http://www.cise.ufl.edu/~josorio/flight/css/search.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+</head>
+</html>
 
 <?php
 	//ini_set('display_errors', 1);
@@ -27,6 +40,7 @@
 		$orSt = " OR ";
 		$arrayPosition = 0;									// helper for the returnStatement function
 		$count = 0;											// number of ANDs/ORs that has been inserted
+		$tupleCount = 0;
 
 		// really useful stuff honestly
 		function returnStatement($data) {
@@ -166,6 +180,8 @@
 			echo "<td class='actualarrclass'>" . $actualArrTime . "</td>";
 			echo "<td class='distanceclass'>" . $row->DISTANCE . "</td>";
 			echo "</tr>";
+
+			$tupleCount++;
 		}
 
 		echo "
@@ -174,9 +190,13 @@
 		</div>
 		";
 
+		echo "<p style='position: absolute; left: 90vh; top: 0px;'>Number of matches: " . $tupleCount . "</p>";
+
 		// close Oracle database connection and free statements
 		oci_free_statement($stid);
 		oci_close($connection);
+
+		$tupleCount = 0;
 	}
 ?>
 
@@ -241,87 +261,6 @@
 	}
 ?>
 
-<html>
-<head>
-	<title>JetBlue Data Custom Search</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<!-- BootStrap -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-</html>
-
-<style>
-.error {color: #FF0000;}
-.list {
-	font-family:sans-serif;
-}
-input {
-	border:solid 1px #ccc;
-	border-radius: 5px;
-	padding: 8px 10px;
-}
-input:focus {
-	outline:none;
-	border-color:#aaa;
-}
-.sort {
-	padding-left: 10px;
-	padding-right: 10px;
-	border-radius: 6px;
-	border:none;
-	display:inline-block;
-	color:#fff;
-	text-decoration: none;
-	background-color: #28a8e0;
-	height:38px;
-}
-.sort:hover {
-	text-decoration: none;
-	background-color:#1b8aba;
-}
-.sort:focus {
-	outline:none;
-}
-.sort:after {
-	display:inline-block;
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-bottom: 5px solid transparent;
-	content:"";
-	position: relative;
-	top:-10px;
-	right:-5px;
-}
-.sort.asc:after {
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-top: 5px solid #fff;
-	content:"";
-	position: relative;
-	top:4px;
-	right:-5px;
-}
-.sort.desc:after {
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-bottom: 5px solid #fff;
-	content:"";
-	position: relative;
-	top:-4px;
-	right:-5px;
-}
-</style>
-
 <!-- If the checkbox is checked, it brings up a text field -->
 <script type="text/javascript">
 	function displayCheck(checkbox) {
@@ -353,22 +292,22 @@ input:focus {
 	-->
 
 	<!-- Tail Number -->
-	<input type="checkbox" name="filter[]" id="filter" value="Tail Number" onclick="displayCheck(this);">Tail Number
+	<input type="checkbox" name="filter[]" id="filter" value="Tail Number" onclick="displayCheck(this);"> Tail Number
 	<input type="text" id="Tail Number" name="tail-number-filter" style="display:none" placeholder='N503JB'>
 	<span class="error"><?php echo $tailNumErr; ?></span><br>
 
 	<!-- Flight Number -->
-	<input type="checkbox" name="filter[]" id="filter" value="Flight Number" onclick="displayCheck(this);">Flight Number
+	<input type="checkbox" name="filter[]" id="filter" value="Flight Number" onclick="displayCheck(this);"> Flight Number
 	<input type="text" id="Flight Number" name="flight-number-filter" style="display:none" placeholder='2020'>
 	<span class="error"><?php echo $flightNumErr; ?></span><br>
 
 	<!-- Origin -->
-	<input type="checkbox" name="filter[]" id="filter" value="Origin" onclick="displayCheck(this);">Origin
+	<input type="checkbox" name="filter[]" id="filter" value="Origin" onclick="displayCheck(this);"> Origin
 	<input type="text" id="Origin" name="origin-filter" style="display:none" placeholder='JFK'>
 	<span class="error"><?php echo $orgErr; ?></span><br>
 
 	<!-- Destination -->
-	<input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);">Destination
+	<input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);"> Destination
 	<input type="text" id="Destination" name="destination-filter" style="display:none" placeholder="JAX">
 	<span class="error"><?php echo $destErr; ?></span><br>
 
@@ -390,7 +329,7 @@ input:focus {
 	-->
 
 	<!-- Distance -->
-	<input type="checkbox" name="filter[]" id="filter" value="Distance" onclick="displayCheck(this);">Distance
+	<input type="checkbox" name="filter[]" id="filter" value="Distance" onclick="displayCheck(this);"> Distance
 	<input type="text" id="Distance" name="distance-filter" style="display:none" placeholder='1211'>
 	<span class="error"><?php echo $distanceErr; ?></span><br>
 
