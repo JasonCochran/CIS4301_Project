@@ -3,10 +3,6 @@
 <?php
 	include('globalVariables.php');
 	ini_set('display_errors', 1);
-	$validForm = true;
-	$submitted = false;
-	$input = false;
-	$numFilters = 0;
 ?>
 
 <!-- db stuff -->
@@ -34,7 +30,7 @@
 			  AND FLIGHTS.DESTINATIONAIRPORT = 'MCO'
 		   GROUP BY FLIGHTS.FLIGHTDATE) t2
 	   ON t1.FLIGHTDATE = t2.FLIGHTDATE 
-	 ORDER BY t2.FLIGHTDATE ASC;
+	 ORDER BY t2.FLIGHTDATE ASC
 	 ";
 
 	$statement = oci_parse($connection, $monsterQuery);
