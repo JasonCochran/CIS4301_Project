@@ -1,6 +1,10 @@
 #!/usr/local/bin/php
 
-<!-- Latest form. Live Queries in one page, conditional input, form validation, input sanitization, and SQL injection prevention in one -->
+<!-- Final form. Live Queries in one page, conditional input, form validation, input sanitization, and SQL injection prevention in one -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+<!-- our CSS -->
+<link rel="stylesheet" href="http://www.cise.ufl.edu/~josorio/flight/css/main.css">
 
 <?php
 	//ini_set('display_errors', 1);
@@ -13,12 +17,9 @@
 <!-- db stuff -->
 <?php
 	function runQuery($flightDateQuery, $tailNumQuery, $flightNumQuery, $originQuery, $destinationQuery, $schDepQuery, $actualDepQuery, $schArrQuery, $actualArrQuery, $distanceQuery) {
-
-        include('globalVariables.php');
-
-        $connection = oci_connect($username = $GLOBALS['username'],
-            $password = $GLOBALS['password'],
-            $connection_string = '//oracle.cise.ufl.edu/orcl');
+		$connection = oci_connect($username = 'oracleusername',
+	                          $password = 'oraclepassword',
+	                          $connection_string = '//oracle.cise.ufl.edu/orcl');
 
 		$baseQuery = "SELECT * FROM flightscopy WHERE ";	// the query to which the filters will be appended to
 		$numJoins = $GLOBALS['numFilters'] - 1;				// number of ANDs/ORs will always be 1 less than the # filters
@@ -97,6 +98,15 @@
 
 		// output result as a table
 		echo "
+			<br>
+			<div id='tuples'>
+			<input class='search' placeholder='Search'/>
+			<button class='sort' data-sort='schdepclass'>Sort by Scheduled Departure</button>
+			<button class='sort' data-sort='actualdepclass'>Sort by Actual Departure</button>
+			<button class='sort' data-sort='scharrclass'>Sort by Scheduled Arrival</button>
+			<button class='sort' data-sort='actualarrclass'>Sort by Actual Arrival</button>
+			<button class='sort' data-sort='distanceclass'>Sort by Distance</button>
+			<br><br>
 			<table class='table table-hover'>
 			<thead>
 			<tr>
@@ -105,32 +115,64 @@
 			<th>Flight #</th>
 			<th>Origin</th>
 			<th>Destination</th>
-			<th>Sched Dep Time</th>
-			<th>Actual Dep Time</th>
-			<th>Sched Arr Time</th>
-			<th>Actual Arr Time</th>
+			<th>Sched. Departure</th>
+			<th>Actual Departure</th>
+			<th>Sched. Arrival</th>
+			<th>Actual Arrival</th>
 			<th>Distance</th>
 			</tr>
 			</thead>
+			<tbody class='list'>
 		";
 
 		// get data from table and format it on the table
 		while (($row = oci_fetch_object($stid))) {
+
+			// format all the times
+			$schDepTime = strval($row->DEPTTIMESCHEDULED);
+			if(strlen($schDepTime) == 1) $schDepTime = "00:0" . $schDepTime;
+			elseif(strlen($schDepTime) == 2) $schDepTime = "00:" . $schDepTime;
+			elseif(strlen($schDepTime) == 3) $schDepTime = "0" . substr($schDepTime, 0, -2) . ":" . substr($schDepTime, 1);
+			elseif(strlen($schDepTime) == 4) $schDepTime = substr($schDepTime, 0, -2) . ":" . substr($schDepTime, 2);
+
+			$actualDepTime = strval($row->DEPTTIMEACTUAL);
+			if(strlen($actualDepTime) == 1) $actualDepTime = "00:0" . $actualDepTime;
+			elseif(strlen($actualDepTime) == 2) $actualDepTime = "00:" . $actualDepTime;
+			elseif(strlen($actualDepTime) == 3) $actualDepTime = "0" . substr($actualDepTime, 0, -2) . ":" . substr($actualDepTime, 1);
+			elseif(strlen($actualDepTime) == 4) $actualDepTime = substr($actualDepTime, 0, -2) . ":" . substr($actualDepTime, 2);
+
+			$schArrTime = strval($row->ARRTIMESCHEDULED);
+			if(strlen($schArrTime) == 1) $schArrTime = "00:0" . $schArrTime;
+			elseif(strlen($schArrTime) == 2) $schArrTime = "00:" . $schArrTime;
+			elseif(strlen($schArrTime) == 3) $schArrTime = "0" . substr($schArrTime, 0, -2) . ":" . substr($schArrTime, 1);
+			elseif(strlen($schArrTime) == 4) $schArrTime = substr($schArrTime, 0, -2) . ":" . substr($schArrTime, 2);
+
+			$actualArrTime = strval($row->ARRTIMESCHEDULED);
+			if(strlen($actualArrTime) == 1) $actualArrTime = "00:0" . $actualArrTime;
+			elseif(strlen($actualArrTime) == 2) $actualArrTime = "00:" . $actualArrTime;
+			elseif(strlen($actualArrTime) == 3) $actualArrTime = "0" . substr($actualArrTime, 0, -2) . ":" . substr($actualArrTime, 1);
+			elseif(strlen($actualArrTime) == 4) $actualArrTime = substr($actualArrTime, 0, -2) . ":" . substr($actualArrTime, 2);
+			// there was probably a smarter way to do that, but I'm desperate sooooo
+
 			echo "<tr>";
-			echo "<td>" . $row->FLIGHTDATE . "</td>";
-			echo "<td>" . $row->TAILNUMBER . "</td>";
-			echo "<td>" . $row->FLIGHTNUMBER . "</td>";
-			echo "<td>" . $row->ORIGINAIRPORT . "</td>";
-			echo "<td>" . $row->DESTINATIONAIRPORT . "</td>";
-			echo "<td>" . $row->DEPTTIMESCHEDULED . "</td>";
-			echo "<td>" . $row->DEPTTIMEACTUAL . "</td>";
-			echo "<td>" . $row->ARRTIMESCHEDULED . "</td>";
-			echo "<td>" . $row->ARRTIMEACTUAL . "</td>";
-			echo "<td>" . $row->DISTANCE . "</td>";
+			echo "<td class='flightdateclass'>" . $row->FLIGHTDATE . "</td>";
+			echo "<td class='tailnumberclass'>" . $row->TAILNUMBER . "</td>";
+			echo "<td class='flightnumberclass'>" . $row->FLIGHTNUMBER . "</td>";
+			echo "<td class='originclass'>" . $row->ORIGINAIRPORT . "</td>";
+			echo "<td class='destinationclass'>" . $row->DESTINATIONAIRPORT . "</td>";
+			echo "<td class='schdepclass'>" . $schDepTime . "</td>";
+			echo "<td class='actualdepclass'>" . $actualDepTime . "</td>";
+			echo "<td class='scharrclass'>" . $schArrTime . "</td>";
+			echo "<td class='actualarrclass'>" . $actualArrTime . "</td>";
+			echo "<td class='distanceclass'>" . $row->DISTANCE . "</td>";
 			echo "</tr>";
 		}
 
-		echo "</table>";
+		echo "
+		</tbody>
+		</table>
+		</div>
+		";
 
 		// close Oracle database connection and free statements
 		oci_free_statement($stid);
@@ -201,7 +243,7 @@
 
 <html>
 <head>
-	<title>JetBlue Flight Browser</title>
+	<title>JetBlue Data Custom Search</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -214,6 +256,70 @@
 
 <style>
 .error {color: #FF0000;}
+.list {
+	font-family:sans-serif;
+}
+input {
+	border:solid 1px #ccc;
+	border-radius: 5px;
+	padding: 8px 10px;
+}
+input:focus {
+	outline:none;
+	border-color:#aaa;
+}
+.sort {
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 6px;
+	border:none;
+	display:inline-block;
+	color:#fff;
+	text-decoration: none;
+	background-color: #28a8e0;
+	height:38px;
+}
+.sort:hover {
+	text-decoration: none;
+	background-color:#1b8aba;
+}
+.sort:focus {
+	outline:none;
+}
+.sort:after {
+	display:inline-block;
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	content:"";
+	position: relative;
+	top:-10px;
+	right:-5px;
+}
+.sort.asc:after {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 5px solid #fff;
+	content:"";
+	position: relative;
+	top:4px;
+	right:-5px;
+}
+.sort.desc:after {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #fff;
+	content:"";
+	position: relative;
+	top:-4px;
+	right:-5px;
+}
 </style>
 
 <!-- If the checkbox is checked, it brings up a text field -->
@@ -233,58 +339,59 @@
 	}
 </script>
 
-<h2>The Dank JetBlue Flight Browser</h2>
-<p>You're not supposed to be here. This one is really experimental. Expect bugs and weird output.</p>
+<h2>Custom Search</h2>
+<p>Check out our data on your own browser.</p>
 <p>You must select at least one filter and provide a valid value to show results.</p>
-<!-- <p><span class="error">* required field.</span></p> -->
 
 <form method="post" action="">
 
 	<p>Filter by:</p>
 
-	<!-- Flight Date -->
+	<!-- Flight Date 
 	<input type="checkbox" name="filter[]" id="filter" value="Flight Date" onclick="displayCheck(this);">Flight Date
 	<input type="text" id="Flight Date" name="flight-date-filter" style="display:none"><br>
+	-->
 
 	<!-- Tail Number -->
 	<input type="checkbox" name="filter[]" id="filter" value="Tail Number" onclick="displayCheck(this);">Tail Number
-	<input type="text" id="Tail Number" name="tail-number-filter" style="display:none">
+	<input type="text" id="Tail Number" name="tail-number-filter" style="display:none" placeholder='N503JB'>
 	<span class="error"><?php echo $tailNumErr; ?></span><br>
 
 	<!-- Flight Number -->
 	<input type="checkbox" name="filter[]" id="filter" value="Flight Number" onclick="displayCheck(this);">Flight Number
-	<input type="text" id="Flight Number" name="flight-number-filter" style="display:none">
+	<input type="text" id="Flight Number" name="flight-number-filter" style="display:none" placeholder='2020'>
 	<span class="error"><?php echo $flightNumErr; ?></span><br>
 
 	<!-- Origin -->
 	<input type="checkbox" name="filter[]" id="filter" value="Origin" onclick="displayCheck(this);">Origin
-	<input type="text" id="Origin" name="origin-filter" style="display:none">
+	<input type="text" id="Origin" name="origin-filter" style="display:none" placeholder='JFK'>
 	<span class="error"><?php echo $orgErr; ?></span><br>
 
 	<!-- Destination -->
 	<input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);">Destination
-	<input type="text" id="Destination" name="destination-filter" style="display:none">
+	<input type="text" id="Destination" name="destination-filter" style="display:none" placeholder="JAX">
 	<span class="error"><?php echo $destErr; ?></span><br>
 
-	<!-- Scheduled Departure Time -->
+	<!-- Scheduled Departure Time 
 	<input type="checkbox" name="filter[]" id="filter" value="Scheduled Departure Time" onclick="displayCheck(this);">Scheduled Departure Time
 	<input type="text" id="Scheduled Departure Time" name="sch-dep-filter" style="display:none"><br>
 
-	<!-- Actual Departure Time -->
+	Actual Departure Time
 	<input type="checkbox" name="filter[]" id="filter" value="Actual Departure Time" onclick="displayCheck(this);">Actual Departure Time
 	<input type="text" id="Actual Departure Time" name="actual-dep-filter" style="display:none"><br>
 
-	<!-- Scheduled Arrival Time -->
+	Scheduled Arrival Time
 	<input type="checkbox" name="filter[]" id="filter" value="Scheduled Arrival Time" onclick="displayCheck(this);">Scheduled Arrival Time
 	<input type="text" id="Scheduled Arrival Time" name="sch-arr-filter" style="display:none"><br>
 
-	<!-- Actual Arrival Time -->
+	Actual Arrival Time
 	<input type="checkbox" name="filter[]" id="filter" value="Actual Arrival Time" onclick="displayCheck(this);">Actual Arrival Time
 	<input type="text" id="Actual Arrival Time" name="actual-arr-filter" style="display:none"><br>
+	-->
 
 	<!-- Distance -->
 	<input type="checkbox" name="filter[]" id="filter" value="Distance" onclick="displayCheck(this);">Distance
-	<input type="text" id="Distance" name="distance-filter" style="display:none">
+	<input type="text" id="Distance" name="distance-filter" style="display:none" placeholder='1211'>
 	<span class="error"><?php echo $distanceErr; ?></span><br>
 
 	<br>
@@ -313,7 +420,6 @@
 				$GLOBALS['numFilters']++;
 				$input = true;
 			}
-			//echo "value: " . $value . "<br>";
 		}
 
 		// if the form is valid, then it can be submitted
@@ -322,10 +428,8 @@
 		}
 	}
 	
-
 	// if form is valid and submit has been clicked, run the query
 	if ($validForm && $submitted && $input) {
-		echo "Running query!";
 		runQuery($flightDateClean, $tailNumClean, $flightNumClean, $originClean, $destClean, $schDepClean, $actualDepClean, $schArrClean, $actualArrClean, $distanceClean);
 	}
 
@@ -334,3 +438,11 @@
 	$submitted = false;
 	$input = false;
 ?>
+
+<script>
+var options = {
+	valueNames: [ 'flightdateclass', 'tailnumberclass', 'flightnumberclass', 'originclass', 'destinationclass', 'schdepclass', 'actualdepclass', 'scharrclass', 'actualarrclass', 'distanceclass' ]
+};
+
+var tupleList = new List('tuples', options);
+</script>
