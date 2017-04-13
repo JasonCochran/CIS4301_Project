@@ -32,14 +32,14 @@ $input = false;				// to prevent an empty form from running a blank query
                 <div class="panel-body">
                     <?php
                     $connection = oci_connect($username = $GLOBALS['username'], $password = $GLOBALS['password'], $connection_string = '//oracle.cise.ufl.edu/orcl');
-
-						// $connection = oracle_startup();
-						$stid = oci_parse($connection, "SELECT airportName FROM ((SELECT originAirport, AVG(TO_NUMBER(TO_CHAR(deptTimeActual, 'DD-MON-YYYY HH24:MI:SS')) - TO_NUMBER(TO_CHAR(deptTimeScheduled, 'DD-MON-YYYY HH24:MI:SS'))) AS Delay FROM flights) JOIN airports)");
+						$stid = oci_parse($connection, "SELECT originAirport FROM flights ORDER BY (TO_NUMBER(TO_CHAR(deptTimeActual, 'DD-MON-YYYY HH24:MI:SS')) - TO_NUMBER(TO_CHAR(deptTimeScheduled, 'DD-MON-YYYY HH24:MI:SS'))))");
 						oci_execute($stid);
                     	for($i=1; $i<=3; $i++) {
                             $airport = oci_fetch_object($stid);
                             echo "<li>" . $airport["airportName"] . "</li>";
                     	}
+                    	oci_free_statement($stid);
+        				oci_close($stid);
                     ?>
                 </div>
             </div>
