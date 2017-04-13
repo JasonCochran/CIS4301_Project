@@ -29,7 +29,7 @@
 						oci_execute($stid);
                     	for($i=1; $i<=3; $i++) {
                             $airport = oci_fetch_object($stid);
-                            echo "<li>" . $airport["airportName"] . "</li>"
+                            echo "<li>" . $airport["airportName"] . "</li>";
                     	}
                     ?>
                 </div>
