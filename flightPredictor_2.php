@@ -28,20 +28,45 @@ $input = false;				// to prevent an empty form from running a blank query
 
 <!-- db stuff -->
 <?php
-function runQuery($originClean, $destClean) {
+function runQuery($originClean, $destClean, $dayClean, $monthClean) {
     $connection = oci_connect($username = $GLOBALS['username'], $password = $GLOBALS['password'], $connection_string = '//oracle.cise.ufl.edu/orcl');
+
+    $date = "2016-".$monthClean."-".$dayClean;
+
+    $alterSession = "ALTER SESSION SET NLS_DATE_FORMAT = DD-MM-YYYY";
+    $query = oci_parse($connection,$alterSession );
+    oci_execute($query);
 
     $monsterQuery = "SELECT FLIGHTS.FLIGHTDATE, FLIGHTS.FLIGHTNUMBER FROM FLIGHTS, CANCELLATIONS
  WHERE FLIGHTS.FLIGHTNUMBER = CANCELLATIONS.FLIGHTNUMBER
    AND FLIGHTS.FLIGHTDATE = CANCELLATIONS.FLIGHTDATE
    AND FLIGHTS.ORIGINAIRPORT =:departureAirport_bv
-   AND FLIGHTS.DESTINATIONAIRPORT =:arrivalAirport_bv";
+   AND FLIGHTS.DESTINATIONAIRPORT =:arrivalAirport_bv 
+   AND FLIGHTS.FLIGHTDATE =:date_bv";
+
+    $monsterQuery_2 = "SELECT * FROM 
+FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
+ AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv 
+ AND FLIGHTS.FLIGHTDATE =:date_bv";
+
 
     $statement = oci_parse($connection, $monsterQuery);
+    $statement_2 = oci_parse($connection, $monsterQuery_2);
 
     oci_bind_by_name($statement, ":departureAirport_bv",$destClean );
     oci_bind_by_name($statement, ":arrivalAirport_bv", $originClean);
+    oci_bind_by_name($statement, ":date_bv", $date);
     oci_execute($statement);
+
+    oci_bind_by_name($statement_2, ":departureAirport_bv",$destClean );
+    oci_bind_by_name($statement_2, ":arrivalAirport_bv", $originClean);
+    oci_bind_by_name($statement_2, ":date_bv", $date);
+    oci_execute($statement_2);
+
+    $allFlights = oci_fetch_object($statement_2);
+    $allFlightsCount = count($allFlights);
+
+    echo $allFlightsCount;
 
     // output result as a table
     echo "
@@ -67,7 +92,9 @@ function runQuery($originClean, $destClean) {
 			</table>
 		";
 
+    oci_free_statement($query);
     oci_free_statement($statement);
+    oci_free_statement($statement_2);
     oci_close($connection);
 }
 ?>
@@ -100,6 +127,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $validForm = false;
         $destErr = "Only alphanumeric characters accepted";
     }
+
+    $dayClean = test_input($_POST["day-filter"]);
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $dayClean)) {
+        $validForm = false;
+        $dayErr = "Only alphanumeric characters accepted";
+    }
+
+    $monthClean = test_input($_POST["month-filter"]);
+    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $monthClean)) {
+        $validForm = false;
+        $monthErr = "Only alphanumeric characters accepted";
+    }
 }
 ?>
 <div class="container">
@@ -114,6 +153,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" id="Destination" name="destination-filter" placeholder="JAX">
         <span class="error"><?php echo $destErr; ?></span>
 
+        <!-- Day -->
+        <input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);"> Day
+        <input type="text" id="Day" name="day-filter" placeholder="JAX">
+        <span class="error"><?php echo $dayErr; ?></span>
+
+        <!-- Month -->
+        <input type="checkbox" name="filter[]" id="filter" value="Month" onclick="displayCheck(this);"> Month
+        <input type="text" id="Month" name="month-filter" placeholder="JAX">
+        <span class="error"><?php echo $monthErr; ?></span>
+
         <input type="submit" class="btn" name="submit" value="Submit">
     </form>
 </div>
@@ -125,6 +174,8 @@ if(isset($_POST['submit'])) {
     $stack = array();
     array_push($stack, $originClean);
     array_push($stack, $destClean);
+    array_push($stack, $dayClean);
+    array_push($stack, $monthClean);
 
     foreach ($stack as $value) {
         // if there's at least one input, we can submit the query
@@ -141,7 +192,7 @@ if(isset($_POST['submit'])) {
 
 // if form is valid and submit has been clicked, run the query
 if ($validForm && $submitted && $input) {
-    runQuery($originClean, $destClean);
+    runQuery($originClean, $destClean, $dayClean, $monthClean);
 }
 
 // reset form
