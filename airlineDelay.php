@@ -9,6 +9,15 @@
 <?php include("includes/header.php"); ?>
 <?php include("includes/solid_navbar.html"); ?>
 
+<?php
+include("includes/solid_navbar.html");
+include('globalVariables.php');
+ini_set('display_errors', 1);
+$validForm = true;			// form is valid unless an invalid value is input
+$submitted = false;			// if the whole form is valid, then this will become true and form can be submitted
+$input = false;				// to prevent an empty form from running a blank query
+?>
+
 <body>
 
 <div class="container">
@@ -22,9 +31,9 @@
                 <div class="panel-heading">Most Delayed Airports</div>
                 <div class="panel-body">
                     <?php
-						$connection = oci_connect($username = 'oraclepassword', $password = 'oraclepassword', $connection_string = '//oracle.cise.ufl.edu/orcl');
+                    $connection = oci_connect($username = $GLOBALS['username'], $password = $GLOBALS['password'], $connection_string = '//oracle.cise.ufl.edu/orcl');
 
-						$connection = oracle_startup();
+						// $connection = oracle_startup();
 						$stid = oci_parse($connection, "SELECT airportName FROM ((SELECT originAirport, AVG(TO_NUMBER(TO_CHAR(deptTimeActual, 'DD-MON-YYYY HH24:MI:SS')) - TO_NUMBER(TO_CHAR(deptTimeScheduled, 'DD-MON-YYYY HH24:MI:SS'))) AS Delay FROM flights) JOIN airports)");
 						oci_execute($stid);
                     	for($i=1; $i<=3; $i++) {
