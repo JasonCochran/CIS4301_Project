@@ -23,20 +23,18 @@
 			<div class="row">
 			<div class="col-lg-4">
 				<img src="http://www.cise.ufl.edu/~josorio/flight/assets/stats.svg" alt="Stats image" width="140" height="140">
-				<h2>Dataset</h2>
-				<p>Using flight data provided by the Bureau of Transportation Statistics, our predictor can determine how likely it is that your flight
-                    will be delayed using historical data.</p>
+				<h2>Data</h2>
+				<p>Using historical flight data provided by the Bureau of Transportation Statistics, our predictor can determine how likely it is that your next JetBlue flight will be delayed.</p>
 			</div>
 			<div class="col-lg-4">
 				<img src="http://www.cise.ufl.edu/~josorio/flight/assets/database.svg" alt="Database image" width="140" height="140">
 				<h2>Database</h2>
-				<p>Through the Oracle Database, our predictor can quickly lookup and retrieve the information requested,
-                    letting you not only save time and the headache of directly interacting with queries.</p>
+				<p>With the Oracle Database, our predictor can quickly lookup and retrieve the information requested, saving you valuable research and travel time.</p>
 			</div>
 			<div class="col-lg-4">
 				<img src="http://www.cise.ufl.edu/~josorio/flight/assets/programmer.svg" alt="Programming" width="140" height="140">
 				<h2>Programming</h2>
-				<p>Built with the best web programming and markup tools available; including PHP, HTML5, CSS3, Bootstrap, and jQuery.</p>
+				<p>Built with the best web programming and markup tools available, including PHP, HTML5, CSS3, Bootstrap, and jQuery.</p>
 			</div>
 			</div>
 
@@ -44,7 +42,7 @@
 
 			<div class="row featurette">
 			<div class="col-md-7">
-				<h2 class="featurette-heading">Predict the future.<span class="text-muted"> Of your flight delay...</span></h2>
+				<h2 class="featurette-heading">Predict the future.<span class="text-muted"> Skip the wait.</span></h2>
 				<p class="lead">Simply input some details about your next flight with JetBlue and get an instant delay prediction.</p>
 			</div>
 			<div class="col-md-5">
