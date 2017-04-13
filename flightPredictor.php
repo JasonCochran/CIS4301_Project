@@ -25,7 +25,7 @@ $validForm = true;			// form is valid unless an invalid value is input
 $submitted = false;			// if the whole form is valid, then this will become true and form can be submitted
 $input = false;				// to prevent an empty form from running a blank query
 ?>
-
+<div class="container">
 <!-- db stuff -->
 <?php
 function runQuery($originClean, $destClean, $dayClean, $monthClean) {
@@ -58,18 +58,15 @@ FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
     oci_bind_by_name($statement, ":arrivalAirport_bv", $originClean);
     oci_bind_by_name($statement, ":date_bv", $date);
     oci_execute($statement);
-/*
+
     oci_bind_by_name($statement_2, ":departureAirport_bv",$destClean );
     oci_bind_by_name($statement_2, ":arrivalAirport_bv", $originClean);
-    oci_bind_by_name($statement_2, ":day_bv", $dayClean);
-    oci_bind_by_name($statement_2, ":month_bv", $monthClean);
+    oci_bind_by_name($statement_2, ":date_bv", $date);
     oci_execute($statement_2);
 
     $allFlights = oci_fetch_object($statement_2);
     $allFlightsCount = count($allFlights);
 
-    echo $allFlightsCount;
-*/
     // output result as a table
 
     $count = 0;
@@ -77,16 +74,18 @@ FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
         $count++;
     }
 
+    $GLOBALS['predictorResult'] = $count / $allFlightsCount * 100;
+    echo $count / $allFlightsCount * 100;
 
-    echo $count;
-
-    // oci_free_statement($query);
     oci_free_statement($statement);
-  //  oci_free_statement($statement_2);
+    oci_free_statement($statement_2);
     oci_close($connection);
+
+
+
 }
 ?>
-
+</div>
 <!-- form validation -->
 <?php
 // helps prevent malicious HTML input
@@ -132,26 +131,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <form method="post" action="">
         <!-- Origin -->
+        <h4>Type in the origin Airport, Destination Airport, Day and Month to see the delay prediction for your flight.</h4>
         <input type="checkbox" name="filter[]" id="filter" value="Origin" onclick="displayCheck(this);"> Origin
         <input type="text" id="Origin" name="origin-filter" placeholder='JFK'>
         <span class="error"><?php echo $orgErr; ?></span>
 
         <!-- Destination -->
         <input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);"> Destination
-        <input type="text" id="Destination" name="destination-filter" placeholder="JAX">
+        <input type="text" id="Destination" name="destination-filter" placeholder="MCO">
         <span class="error"><?php echo $destErr; ?></span>
-
+        <br>
         <!-- Day -->
         <input type="checkbox" name="filter[]" id="filter" value="Destination" onclick="displayCheck(this);"> Day
-        <input type="text" id="Day" name="day-filter" placeholder="JAX">
+        <input type="text" id="Day" name="day-filter" placeholder="22">
         <span class="error"><?php echo $dayErr; ?></span>
 
         <!-- Month -->
         <input type="checkbox" name="filter[]" id="filter" value="Month" onclick="displayCheck(this);"> Month
-        <input type="text" id="Month" name="month-filter" placeholder="JAX">
+        <input type="text" id="Month" name="month-filter" placeholder="NOV">
         <span class="error"><?php echo $monthErr; ?></span>
-
+        <br>
+        <br>
         <input type="submit" class="btn" name="submit" value="Submit">
+
     </form>
 </div>
 
