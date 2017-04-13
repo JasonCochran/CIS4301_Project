@@ -53,6 +53,7 @@
     </div>
 </div> <!-- /container -->
 <div class="container">
+    <hr>
     <?php include("includes/footer.html"); ?>
 </div>
 </body>

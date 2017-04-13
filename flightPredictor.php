@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="col-md-8">
             <div class="row">
-                <p>The query return itself</p>
+                <h1>%%%</h1>
             </div>
             <div class="row">
                 <p>Some random information about the query</p>
@@ -168,6 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </div> <!-- /container -->
 <div class="container">
+    <hr>
     <?php include("includes/footer.html"); ?>
 </div>
 </body>

@@ -180,6 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </div> <!-- /container -->
 <div class="container">
+    <hr>
     <?php include("includes/footer.html"); ?>
 </div>
 </body>

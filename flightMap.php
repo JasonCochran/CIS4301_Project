@@ -20,7 +20,7 @@
         $connection_string = '//oracle.cise.ufl.edu/orcl');
 
     // write your SQL query here (you may use parameters from $_GET or $_POST if you need them)
-    $query = oci_parse($connection, "query" );
+    $query = oci_parse($connection, "SELECT * FROM AIRPORTS" );
 
     $table = array();
     $table['cols'] = array(
@@ -97,7 +97,7 @@
                 resolution: 'provinces',
                 colorAxis: {colors: ['#C7FFAD', '#015FB2']},
                 backgroundColor: 'white',
-                datalessRegionColor: '#f8bbd0',
+                datalessRegionColor: '#C7FFAD',
                 defaultColor: '#f5f5f5',
             };
 
