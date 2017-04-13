@@ -31,11 +31,12 @@ $input = false;				// to prevent an empty form from running a blank query
 function runQuery($originClean, $destClean, $dayClean, $monthClean) {
     $connection = oci_connect($username = $GLOBALS['username'], $password = $GLOBALS['password'], $connection_string = '//oracle.cise.ufl.edu/orcl');
 
-    $date = "2016-".$monthClean."-".$dayClean;
-
+    $date = $dayClean."-".$monthClean."-"."16";
+/*
     $alterSession = "ALTER SESSION SET NLS_DATE_FORMAT = DD-MM-YYYY";
     $query = oci_parse($connection,$alterSession );
     oci_execute($query);
+ */
 
     $monsterQuery = "SELECT FLIGHTS.FLIGHTDATE, FLIGHTS.FLIGHTNUMBER FROM FLIGHTS, CANCELLATIONS
  WHERE FLIGHTS.FLIGHTNUMBER = CANCELLATIONS.FLIGHTNUMBER
@@ -44,7 +45,7 @@ function runQuery($originClean, $destClean, $dayClean, $monthClean) {
    AND FLIGHTS.DESTINATIONAIRPORT =:arrivalAirport_bv 
    AND FLIGHTS.FLIGHTDATE =:date_bv";
 
-    $monsterQuery_2 = "SELECT * FROM 
+    $monsterQuery_2 = "SELECT * FROM
 FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
  AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv 
  AND FLIGHTS.FLIGHTDATE =:date_bv";
@@ -57,17 +58,18 @@ FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
     oci_bind_by_name($statement, ":arrivalAirport_bv", $originClean);
     oci_bind_by_name($statement, ":date_bv", $date);
     oci_execute($statement);
-
+/*
     oci_bind_by_name($statement_2, ":departureAirport_bv",$destClean );
     oci_bind_by_name($statement_2, ":arrivalAirport_bv", $originClean);
-    oci_bind_by_name($statement_2, ":date_bv", $date);
+    oci_bind_by_name($statement_2, ":day_bv", $dayClean);
+    oci_bind_by_name($statement_2, ":month_bv", $monthClean);
     oci_execute($statement_2);
 
     $allFlights = oci_fetch_object($statement_2);
     $allFlightsCount = count($allFlights);
 
     echo $allFlightsCount;
-
+*/
     // output result as a table
     echo "
 			<table class='table table-hover'>
@@ -92,9 +94,9 @@ FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
 			</table>
 		";
 
-    oci_free_statement($query);
+    // oci_free_statement($query);
     oci_free_statement($statement);
-    oci_free_statement($statement_2);
+  //  oci_free_statement($statement_2);
     oci_close($connection);
 }
 ?>
