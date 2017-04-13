@@ -16,37 +16,57 @@ $numFilters = 0;
 
 include('globalVariables.php');
 
+function runQuery() {
+
+}
 $connection = oci_connect($username = $GLOBALS['username'],
     $password = $GLOBALS['password'],
     $connection_string = '//oracle.cise.ufl.edu/orcl');
 
+$departureAirportClean = "JFK";
+$arrivalAirportClean = "MCO";
+$dayClean = "2016-12-21";
+
 // TODO write the query for this
-$statement = oci_parse($connection, "SELECT (100 * numberOfCanceledFlights / TotalNumberOfFlights) AS percentDelayed
-FROM(
- (SELECT count(*) AS numberOfCanceledFlights
- FROM FLIGHTS, CANCELLATIONS
+$statement = oci_parse($connection, "SELECT * FROM FLIGHTS, CANCELLATIONS
  WHERE FLIGHTS.FLIGHTNUMBER = CANCELLATIONS.FLIGHTNUMBER
    AND FLIGHTS.FLIGHTDATE = CANCELLATIONS.FLIGHTDATE
    AND FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
-   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv
-   AND FLIGHTS.FLIGHTDATE = 'YEAR-MONTH_DAY')
-CROSS JOIN
- (SELECT count(*) AS TotalNumberOfFlights
- FROM FLIGHTS
- WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
    AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv 
-      AND FLIGHTS.FLIGHTDATE = 'YEAR-MONTH_DAY'))" );
+   AND FLIGHTS.FLIGHTDATE = :date_bv" );
 
-// oci_bind_by_name($statement, ":day_dv", $dayClean);
-// oci_bind_by_name($statement, ":month_bv", $monthClean);
-// oci_bind_by_name($statement, ":year_bv", $yearClean);
+$statement_2 = oci_parse($connection, "SELECT * FROM 
+FLIGHTS WHERE FLIGHTS.ORIGINAIRPORT=:departureAirport_bv
+   AND FLIGHTS.DESTINATIONAIRPORT=:arrivalAirport_bv 
+   AND FLIGHTS.FLIGHTDATE = :date_bv" );
+
+// AND FLIGHTS.FLIGHTDATE = 'YEAR-MONTH_DAY'
+// TODO need to actually define the $dateClean variable
+oci_bind_by_name($statement, ":date_bv", $dateClean);
 oci_bind_by_name($statement, ":departureAirport_bv", $departureAirportClean);
 oci_bind_by_name($statement, ":arrivalAirport_bv", $arrivalAirportClean);
 oci_execute($statement);
 
-$calendarDelays = oci_fetch_array($statement);
+oci_bind_by_name($statement_2, ":date_bv", $dateClean);
+oci_bind_by_name($statement_2, ":departureAirport_bv", $departureAirportClean);
+oci_bind_by_name($statement_2, ":arrivalAirport_bv", $arrivalAirportClean);
+oci_execute($statement_2);
+
+$delays = oci_fetch_array($statement);
+$flightDelayCount = count($delays);
+
+$flights = oci_fetch_array($statement_2);
+$flightCount = count($flights, COUNT_NORMAL);
+
+echo $flightDelayCount;
+echo $flightCount;
+
+$prediction = 100 * $flightDelayCount / $flightCount;
+
+echo $prediction;
 
 oci_free_statement($statement);
+oci_free_statement($statement_2);
 oci_close($connection);
 
 ?>
