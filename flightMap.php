@@ -4,6 +4,63 @@
 <?php include("includes/header.php"); ?>
 <?php include("includes/solid_navbar.html"); ?>
 <head>
+
+    <?php
+    // TODO remove this
+    ini_set('display_errors', 1);
+    $validForm = true;
+    $submitted = false;
+    $input = false;
+    $numFilters = 0;
+
+    include('globalVariables.php');
+
+    $connection = oci_connect($username = $GLOBALS['username'],
+        $password = $GLOBALS['password'],
+        $connection_string = '//oracle.cise.ufl.edu/orcl');
+
+    // write your SQL query here (you may use parameters from $_GET or $_POST if you need them)
+    $query = oci_parse($connection, "query" );
+
+    $table = array();
+    $table['cols'] = array(
+        /* define your DataTable columns here
+        * each column gets its own array
+        * syntax of the arrays is:
+        * label => column label
+        * type => data type of column (string, number, date, datetime, boolean)
+        */
+        array('label' => 'Label of column 1', 'type' => 'string'),
+        array('label' => 'Label of column 2', 'type' => 'number'),
+        array('label' => 'Label of column 3', 'type' => 'number')
+        // etc...
+    );
+
+    $rows = array();
+    while($r = oci_fetch_row($query)) {
+        $temp = array();
+        // each column needs to have data inserted via the $temp array
+        $temp[] = array('v' => $r['column1']);
+        $temp[] = array('v' => $r['column2']);
+        $temp[] = array('v' => $r['column3']);
+        // etc...
+
+        // insert the temp array into $rows
+        $rows[] = array('c' => $temp);
+    }
+
+    oci_free_statement($query);
+    oci_close($connection);
+
+    // populate the table with rows of data
+    $table['rows'] = $rows;
+
+    // encode the table as JSON
+    $jsonTable = json_encode($table);
+
+    // return the JSON data
+    echo $jsonTable;
+    ?>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {'packages':['geochart']});
@@ -38,8 +95,8 @@
             var options = {
                 region: 'US', // USA
                 resolution: 'provinces',
-                colorAxis: {colors: ['#00853f', 'black', '#e31b23']},
-                backgroundColor: '#81d4fa',
+                colorAxis: {colors: ['#C7FFAD', '#015FB2']},
+                backgroundColor: 'white',
                 datalessRegionColor: '#f8bbd0',
                 defaultColor: '#f5f5f5',
             };
